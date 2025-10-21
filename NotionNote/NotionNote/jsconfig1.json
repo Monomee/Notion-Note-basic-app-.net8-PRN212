@@ -1,0 +1,13 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "ConnectionStrings": {
+    "NoteHubDB": "Data Source=LAPTOP-5AC6HOF8\\SQLEXPRESS;Initial Catalog=NoteHubDB;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true"
+  }
+}
