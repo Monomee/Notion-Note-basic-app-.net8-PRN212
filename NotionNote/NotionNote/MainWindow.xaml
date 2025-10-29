@@ -4,9 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotionNote"
+        xmlns:views="clr-namespace:NotionNote.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundColor}">
+    <Window.Resources>
+        <!-- Window-specific styles -->
+        <Style x:Key="DividerStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BorderColor}"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" MinWidth="250" MaxWidth="350"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="320" MinWidth="280" MaxWidth="400"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" MinWidth="400"/>
+        </Grid.ColumnDefinitions>
 
+        <!-- Left Panel: Workspaces -->
+        <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="12,12,6,12">
+            <views:WorkSpaceListView DataContext="{Binding WorkSpaceListVM}" />
+        </Border>
+
+        <!-- Divider 1 -->
+        <Border Grid.Column="1" Style="{StaticResource DividerStyle}" Margin="0,12,0,12"/>
+
+        <!-- Middle Panel: Pages -->
+        <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="6,12,6,12">
+            <views:PageListView DataContext="{Binding PageListVM}" />
+        </Border>
+
+        <!-- Divider 2 -->
+        <Border Grid.Column="3" Style="{StaticResource DividerStyle}" Margin="0,12,0,12"/>
+
+        <!-- Right Panel: Editor -->
+        <Border Grid.Column="4" Style="{StaticResource CardStyle}" Margin="6,12,12,12">
+            <views:EditorView DataContext="{Binding EditorVM}" />
+        </Border>
     </Grid>
 </Window>

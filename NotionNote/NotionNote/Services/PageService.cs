@@ -1,0 +1,71 @@
+using Microsoft.EntityFrameworkCore;
+using NotionNote.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace NotionNote.Services
+{
+    public class PageService : IPageService
+    {
+        private readonly NoteHubDbContext _context;
+
+        public PageService(NoteHubDbContext context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        public Page CreatePage(Page page)
+        {
+            _context.Pages.Add(page);
+            _context.SaveChanges();
+            return page;
+        }
+
+        public Page? GetPageById(int pageId)
+        {
+            return _context.Pages
+                .Include(p => p.Workspace)
+                .Include(p => p.Tags)
+                .FirstOrDefault(p => p.PageId == pageId);
+        }
+
+        public IEnumerable<Page> GetPagesByWorkspaceId(int workspaceId)
+        {
+            return _context.Pages
+                .Include(p => p.Tags)
+                .Where(p => p.WorkspaceId == workspaceId)
+                .OrderByDescending(p => p.UpdatedAt ?? p.CreatedAt)
+                .ToList();
+        }
+
+        public Page UpdatePage(Page page)
+        {
+            _context.Pages.Update(page);
+            _context.SaveChanges();
+            return page;
+        }
+
+        public void DeletePage(int pageId)
+        {
+            var page = _context.Pages.Find(pageId);
+            if (page != null)
+            {
+                _context.Pages.Remove(page);
+                _context.SaveChanges();
+            }
+        }
+
+        public IEnumerable<Page> SearchPages(string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+                return new List<Page>();
+
+            return _context.Pages
+                .Include(p => p.Tags)
+                .Where(p => p.Title.Contains(searchTerm) || 
+                           (p.Content != null && p.Content.Contains(searchTerm)))
+                .OrderByDescending(p => p.UpdatedAt ?? p.CreatedAt)
+                .ToList();
+        }
+    }
+}
