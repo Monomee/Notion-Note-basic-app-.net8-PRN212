@@ -190,3 +190,23 @@ git_stats/*
 StyleCop.Cache
 bin
 obj
+
+# Visual Studio 2022+ cache files
+.vs/
+*.vsidx
+*.vsidx-shm
+*.vsidx-wal
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Visual Studio metadata files
+*.v9.bin
+*.metadata.v9.bin
+*.projects.v9.bin
+*.strings.v9.bin
