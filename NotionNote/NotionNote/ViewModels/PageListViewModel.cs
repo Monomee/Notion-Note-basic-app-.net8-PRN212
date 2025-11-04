@@ -1,0 +1,328 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using NotionNote.Models;
+using NotionNote.Services;
+using NotionNote.Commands;
+
+namespace NotionNote.ViewModels
+{
+    public class PageItemViewModel : INotifyPropertyChanged
+    {
+        private readonly Page _page;
+        private readonly IPageService _pageService;
+        private bool _isEditing;
+        private string _title;
+
+        public PageItemViewModel(Page page, IPageService pageService)
+        {
+            _page = page ?? throw new ArgumentNullException(nameof(page));
+            _pageService = pageService ?? throw new ArgumentNullException(nameof(pageService));
+            _title = page.Title;
+        }
+
+        public Page Page => _page;
+
+        public int PageId => _page.PageId;
+        
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if (_title != value)
+                {
+                    _title = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        
+        public string? Content => _page.Content;
+        public DateTime? CreatedAt => _page.CreatedAt;
+        public DateTime? UpdatedAt => _page.UpdatedAt;
+        public bool? IsPinned => _page.IsPinned;
+
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set
+            {
+                if (_isEditing != value)
+                {
+                    _isEditing = value;
+                    OnPropertyChanged();
+                    
+                    // Save changes when editing ends
+                    if (!value && _page.Title != _title)
+                    {
+                        _page.Title = _title;
+                        _page.UpdatedAt = DateTime.Now;
+                        _pageService.UpdatePage(_page);
+                    }
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class PageListViewModel : INotifyPropertyChanged
+    {
+        private readonly IPageService _pageService;
+        private ObservableCollection<PageItemViewModel> _pages = new();
+        private ObservableCollection<PageItemViewModel> _filteredPages = new();
+        private string _searchText = string.Empty;
+        private PageItemViewModel? _selected;
+        private int? _currentWorkspaceId;
+        private bool _isBusy;
+
+        public PageListViewModel(IPageService pageService)
+        {
+            _pageService = pageService ?? throw new ArgumentNullException(nameof(pageService));
+            
+            // Initialize commands
+            AddPageCommand = new RelayCommand(AddPage, CanAddPage);
+            DeletePageCommand = new RelayCommand(DeletePage, CanDeletePage);
+            RefreshCommand = new RelayCommand(RefreshPages);
+            
+            // Initialize filtered pages
+            _filteredPages = new ObservableCollection<PageItemViewModel>(_pages);
+        }
+
+        #region Properties
+
+        public ObservableCollection<PageItemViewModel> Pages
+        {
+            get => _pages;
+            private set
+            {
+                if (_pages != value)
+                {
+                    _pages = value;
+                    OnPropertyChanged();
+                    UpdateFilteredPages();
+                }
+            }
+        }
+
+        public ObservableCollection<PageItemViewModel> FilteredPages
+        {
+            get => _filteredPages;
+            private set
+            {
+                if (_filteredPages != value)
+                {
+                    _filteredPages = value;
+                    OnPropertyChanged();
+                    UpdateIsEmpty();
+                }
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (_searchText != value)
+                {
+                    _searchText = value;
+                    OnPropertyChanged();
+                    UpdateFilteredPages();
+                }
+            }
+        }
+
+        public PageItemViewModel? Selected
+        {
+            get => _selected;
+            set
+            {
+                if (_selected != value)
+                {
+                    _selected = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int? CurrentWorkspaceId
+        {
+            get => _currentWorkspaceId;
+            set
+            {
+                if (_currentWorkspaceId != value)
+                {
+                    _currentWorkspaceId = value;
+                    OnPropertyChanged();
+                    RefreshPages();
+                }
+            }
+        }
+
+        public bool IsEmpty
+        {
+            get => _filteredPages.Count == 0;
+        }
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            private set
+            {
+                if (_isBusy != value)
+                {
+                    _isBusy = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand AddPageCommand { get; }
+        public ICommand DeletePageCommand { get; }
+        public ICommand RefreshCommand { get; }
+
+        #endregion
+
+        #region Command Implementations
+
+        private void AddPage()
+        {
+            if (CurrentWorkspaceId == null) return;
+
+            IsBusy = true;
+            try
+            {
+                var newPage = new Page
+                {
+                    Title = "Untitled Page",
+                    Content = string.Empty,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    IsPinned = false,
+                    WorkspaceId = CurrentWorkspaceId.Value
+                };
+
+                var createdPage = _pageService.CreatePage(newPage);
+                var pageItem = new PageItemViewModel(createdPage, _pageService);
+                
+                _pages.Insert(0, pageItem);
+                UpdateFilteredPages();
+                Selected = pageItem;
+                pageItem.IsEditing = true;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private bool CanAddPage()
+        {
+            return CurrentWorkspaceId != null && !IsBusy;
+        }
+
+        private void DeletePage()
+        {
+            if (Selected == null) return;
+
+            IsBusy = true;
+            try
+            {
+                _pageService.DeletePage(Selected.PageId);
+                _pages.Remove(Selected);
+                UpdateFilteredPages();
+                Selected = null;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private bool CanDeletePage()
+        {
+            return Selected != null && !IsBusy;
+        }
+
+        private void RefreshPages()
+        {
+            if (CurrentWorkspaceId == null) return;
+
+            IsBusy = true;
+            try
+            {
+                var pages = _pageService.GetPagesByWorkspaceId(CurrentWorkspaceId.Value);
+                _pages.Clear();
+                
+                foreach (var page in pages)
+                {
+                    _pages.Add(new PageItemViewModel(page, _pageService));
+                }
+                
+                UpdateFilteredPages();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private void UpdateFilteredPages()
+        {
+            var filtered = _pages.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                var searchLower = SearchText.ToLower();
+                filtered = filtered.Where(p => 
+                    p.Title.ToLower().Contains(searchLower) ||
+                    (p.Content != null && p.Content.ToLower().Contains(searchLower)));
+            }
+
+            _filteredPages.Clear();
+            foreach (var item in filtered)
+            {
+                _filteredPages.Add(item);
+            }
+
+            UpdateIsEmpty();
+        }
+
+        private void UpdateIsEmpty()
+        {
+            OnPropertyChanged(nameof(IsEmpty));
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+    }
+}
