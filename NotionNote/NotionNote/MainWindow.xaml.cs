@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NotionNote.ViewModels;
 
 namespace NotionNote
 {
@@ -19,6 +20,13 @@ namespace NotionNote
         public MainWindow()
         {
             InitializeComponent();
+            InitializeDataContext();
+        }
+
+        private void InitializeDataContext()
+        {
+            // Create MainViewModel which will initialize all ViewModels and load data
+            DataContext = new MainViewModel();
         }
     }
 }

@@ -14,18 +14,7 @@ namespace NotionNote.Views
         public EditorView()
         {
             InitializeComponent();
-            InitializeViewModel();
-        }
-
-        private void InitializeViewModel()
-        {
-            // Create DbContext and services
-            var dbContext = new NoteHubDbContext();
-            var pageService = new PageService(dbContext);
-            
-            // Create and set ViewModel
-            var viewModel = new EditorViewModel(pageService);
-            DataContext = viewModel;
+            // ViewModel will be set via DataContext binding from MainWindow
         }
     }
 }

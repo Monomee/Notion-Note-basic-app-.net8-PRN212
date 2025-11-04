@@ -76,7 +76,8 @@
         <Grid Grid.Row="2" Margin="0,0,0,16">
             <ListBox ItemsSource="{Binding FilteredPages}"
                  SelectedItem="{Binding Selected, Mode=TwoWay}"
-                 MouseDoubleClick="ListBox_MouseDoubleClick">
+                 MouseDoubleClick="ListBox_MouseDoubleClick"
+                 SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.Style>
                     <Style TargetType="ListBox" BasedOn="{StaticResource ModernListBoxStyle}">
                         <Setter Property="Visibility" Value="Visible"/>

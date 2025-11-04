@@ -30,8 +30,14 @@ namespace NotionNote.Views
             // Handle double-click to open page
             if (sender is ListBox listBox && listBox.SelectedItem != null)
             {
-                // This will be handled by the ViewModel
+                // This will be handled by the ViewModel through binding
             }
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Selection change is handled automatically by TwoWay binding to Selected property
+            // This handler is here for potential future logic (e.g., logging, additional actions)
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
