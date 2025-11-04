@@ -25,6 +25,13 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <!-- Copy appsettings.json to output directory -->
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <!-- Ensure XAML views are compiled as WPF Pages -->
   <ItemGroup>
     <Page Update="MainWindow.xaml">
@@ -43,12 +50,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
