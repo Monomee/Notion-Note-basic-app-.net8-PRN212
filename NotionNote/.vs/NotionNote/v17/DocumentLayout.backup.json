@@ -3,8 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\viewmodels\\workspacelistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\viewmodels\\workspacelistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\viewmodels\\pagelistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\viewmodels\\pagelistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\services\\ipageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\services\\ipageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\services\\pageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\services\\pageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\models\\workspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\models\\workspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\converters\\booleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\converters\\booleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\views\\workspacelistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -15,40 +43,40 @@
       "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\views\\workspacelistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\views\\pagelistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\views\\pagelistview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\views\\pagelistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\views\\pagelistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\views\\editorview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\views\\editorview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\services\\pageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\services\\pageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\services\\ipageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\services\\ipageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\views\\editorview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\views\\editorview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\views\\editorview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\views\\editorview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\converters\\booleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\converters\\booleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\models\\tag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\models\\tag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\models\\page.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\models\\page.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|solutionrelative:notionnote\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4B7A9EF8-326E-477F-A4A7-6060FCA8A999}|NotionNote\\NotionNote.csproj|c:\\users\\pc\\desktop\\prn212\\project-.net8\\notionnote\\notionnote\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -66,7 +94,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,163 +102,245 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WorkSpaceListViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\ViewModels\\WorkSpaceListViewModel.cs",
+              "RelativeDocumentMoniker": "NotionNote\\ViewModels\\WorkSpaceListViewModel.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\ViewModels\\WorkSpaceListViewModel.cs",
+              "RelativeToolTip": "NotionNote\\ViewModels\\WorkSpaceListViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T07:43:56.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "PageListViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\ViewModels\\PageListViewModel.cs",
+              "RelativeDocumentMoniker": "NotionNote\\ViewModels\\PageListViewModel.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\ViewModels\\PageListViewModel.cs",
+              "RelativeToolTip": "NotionNote\\ViewModels\\PageListViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-04T07:43:30.9Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PageListView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\PageListView.xaml.cs",
+              "RelativeDocumentMoniker": "NotionNote\\Views\\PageListView.xaml.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\PageListView.xaml.cs",
+              "RelativeToolTip": "NotionNote\\Views\\PageListView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T09:12:34.399Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Workspace.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\Workspace.cs",
+              "RelativeDocumentMoniker": "NotionNote\\Models\\Workspace.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\Workspace.cs",
+              "RelativeToolTip": "NotionNote\\Models\\Workspace.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T06:39:30.096Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\User.cs",
+              "RelativeDocumentMoniker": "NotionNote\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\User.cs",
+              "RelativeToolTip": "NotionNote\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T06:39:27.248Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Tag.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\Tag.cs",
+              "RelativeDocumentMoniker": "NotionNote\\Models\\Tag.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\Tag.cs",
+              "RelativeToolTip": "NotionNote\\Models\\Tag.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T06:39:24.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Page.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\Page.cs",
+              "RelativeDocumentMoniker": "NotionNote\\Models\\Page.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Models\\Page.cs",
+              "RelativeToolTip": "NotionNote\\Models\\Page.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T06:39:22.377Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "WorkSpaceListView.xaml.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\WorkSpaceListView.xaml.cs",
               "RelativeDocumentMoniker": "NotionNote\\Views\\WorkSpaceListView.xaml.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\WorkSpaceListView.xaml.cs",
               "RelativeToolTip": "NotionNote\\Views\\WorkSpaceListView.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAA3wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-29T15:15:53.522Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "PageService.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Services\\PageService.cs",
               "RelativeDocumentMoniker": "NotionNote\\Services\\PageService.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Services\\PageService.cs",
               "RelativeToolTip": "NotionNote\\Services\\PageService.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwAwAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-28T04:53:51.841Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "IPageService.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Services\\IPageService.cs",
               "RelativeDocumentMoniker": "NotionNote\\Services\\IPageService.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Services\\IPageService.cs",
               "RelativeToolTip": "NotionNote\\Services\\IPageService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T04:53:45.015Z"
+              "WhenOpened": "2025-10-28T04:53:45.015Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "EditorViewModel.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\ViewModels\\EditorViewModel.cs",
               "RelativeDocumentMoniker": "NotionNote\\ViewModels\\EditorViewModel.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\ViewModels\\EditorViewModel.cs",
               "RelativeToolTip": "NotionNote\\ViewModels\\EditorViewModel.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwCAAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAiwBYAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T04:53:08.66Z"
+              "WhenOpened": "2025-10-28T04:53:08.66Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "EditorView.xaml.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\EditorView.xaml.cs",
               "RelativeDocumentMoniker": "NotionNote\\Views\\EditorView.xaml.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\EditorView.xaml.cs",
               "RelativeToolTip": "NotionNote\\Views\\EditorView.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-28T04:52:57.733Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 7,
               "Title": "BooleanToVisibilityConverter.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Converters\\BooleanToVisibilityConverter.cs",
               "RelativeDocumentMoniker": "NotionNote\\Converters\\BooleanToVisibilityConverter.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Converters\\BooleanToVisibilityConverter.cs",
               "RelativeToolTip": "NotionNote\\Converters\\BooleanToVisibilityConverter.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAwAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwAwAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-28T04:51:18.506Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 5,
               "Title": "RelayCommand.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Commands\\RelayCommand.cs",
               "RelativeDocumentMoniker": "NotionNote\\Commands\\RelayCommand.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Commands\\RelayCommand.cs",
               "RelativeToolTip": "NotionNote\\Commands\\RelayCommand.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAEwCIAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-28T04:08:36.868Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 20,
               "Title": "Styles.xaml",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Resources\\Styles.xaml",
               "RelativeDocumentMoniker": "NotionNote\\Resources\\Styles.xaml",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Resources\\Styles.xaml",
               "RelativeToolTip": "NotionNote\\Resources\\Styles.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-28T02:41:02.23Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-28T02:41:02.23Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 19,
               "Title": "App.xaml",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\App.xaml",
               "RelativeDocumentMoniker": "NotionNote\\App.xaml",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\App.xaml",
               "RelativeToolTip": "NotionNote\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-23T15:36:08.354Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-23T15:36:08.354Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "EditorView.xaml",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\EditorView.xaml",
               "RelativeDocumentMoniker": "NotionNote\\Views\\EditorView.xaml",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\EditorView.xaml",
               "RelativeToolTip": "NotionNote\\Views\\EditorView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-21T08:31:11.182Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T08:31:11.182Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
               "Title": "PageListView.xaml",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\PageListView.xaml",
               "RelativeDocumentMoniker": "NotionNote\\Views\\PageListView.xaml",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\PageListView.xaml",
               "RelativeToolTip": "NotionNote\\Views\\PageListView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-21T07:47:00.062Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T07:47:00.062Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "WorkSpaceListView.xaml",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\WorkSpaceListView.xaml",
               "RelativeDocumentMoniker": "NotionNote\\Views\\WorkSpaceListView.xaml",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\Views\\WorkSpaceListView.xaml",
               "RelativeToolTip": "NotionNote\\Views\\WorkSpaceListView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-21T07:45:03.963Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T07:45:03.963Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 14,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\MainWindow.xaml",
               "RelativeDocumentMoniker": "NotionNote\\MainWindow.xaml",
               "ToolTip": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\MainWindow.xaml",
               "RelativeToolTip": "NotionNote\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-21T04:37:57.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T04:37:57.234Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 18,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\PRN212\\Project-.net8\\NotionNote\\NotionNote\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "NotionNote\\MainWindow.xaml.cs",
