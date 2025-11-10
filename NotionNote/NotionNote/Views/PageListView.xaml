@@ -99,8 +99,19 @@
                                     Margin="0,1"
                                     Padding="12,10">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="📄" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
-
+                                            <TextBlock Text="" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                            <TextBlock FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="📄"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                                                                <Setter Property="Text" Value="📌"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
                                             <!-- Display TextBlock -->
                                             <TextBlock x:Name="TitleTextBlock" 
                                              Text="{Binding Title}" 
@@ -160,9 +171,19 @@
 
             <!-- Empty State -->
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="📄" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16" Opacity="0.3"/>
-                <TextBlock Text="No pages found" Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Center" Opacity="0.6"/>
-                <TextBlock Text="Create your first page to get started" Style="{StaticResource BodyTextStyle}" HorizontalAlignment="Center" Margin="0,4,0,0" Opacity="0.6"/>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBlock Text="📁" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16" Opacity="0.3"/>
+                <TextBlock Text="No workspaces" Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Center" Opacity="0.6"/>
+                <TextBlock Text="Click + Add to create one" Style="{StaticResource BodyTextStyle}" HorizontalAlignment="Center" Margin="0,4,0,0" Opacity="0.6"/>
             </StackPanel>
         </Grid>
 

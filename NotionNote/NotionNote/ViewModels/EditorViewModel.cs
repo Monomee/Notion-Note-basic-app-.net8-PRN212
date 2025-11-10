@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -19,7 +19,7 @@ namespace NotionNote.ViewModels
         private bool _isBusy;
 
         private readonly IPageService _pageService;
-
+        public event EventHandler<Page>? PageUpdated;
         public EditorViewModel(IPageService pageService)
         {
             _pageService = pageService ?? throw new ArgumentNullException(nameof(pageService));
@@ -143,12 +143,19 @@ namespace NotionNote.ViewModels
         private void PinPage()
         {
             if (CurrentPage == null) return;
+
             IsBusy = true;
             try
             {
                 CurrentPage.IsPinned = !CurrentPage.IsPinned;
+                CurrentPage.UpdatedAt = DateTime.Now;
                 _pageService.UpdatePage(CurrentPage);
-                SetDirty();
+
+                // Notify UI
+                OnPropertyChanged(nameof(CurrentPage));
+
+                // THÊM: Fire event để PageListViewModel biết
+                PageUpdated?.Invoke(this, CurrentPage);
             }
             finally
             {

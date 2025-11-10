@@ -17,16 +17,16 @@ namespace NotionNote
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(int userId)  // ← THÊM PARAMETER
         {
             InitializeComponent();
-            InitializeDataContext();
+            InitializeDataContext(userId);  // ← TRUYỀN userId
         }
 
-        private void InitializeDataContext()
+        private void InitializeDataContext(int userId)  // ← THÊM PARAMETER
         {
-            // Create MainViewModel which will initialize all ViewModels and load data
-            DataContext = new MainViewModel();
+            // Create MainViewModel with userId
+            DataContext = new MainViewModel(userId);  // ← TRUYỀN userId
         }
     }
 }

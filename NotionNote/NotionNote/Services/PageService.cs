@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NotionNote.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,8 @@ namespace NotionNote.Services
             return _context.Pages
                 .Include(p => p.Tags)
                 .Where(p => p.WorkspaceId == workspaceId)
-                .OrderByDescending(p => p.UpdatedAt ?? p.CreatedAt)
+                .OrderByDescending(p => p.IsPinned)  // Pinned lên đầu
+                .ThenByDescending(p => p.UpdatedAt ?? p.CreatedAt)
                 .ToList();
         }
 

@@ -21,14 +21,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
   <!-- Copy appsettings.json to output directory -->
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
