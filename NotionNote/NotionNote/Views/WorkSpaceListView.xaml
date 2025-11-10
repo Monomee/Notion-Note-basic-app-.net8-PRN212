@@ -159,11 +159,22 @@
 
             <!-- Empty State -->
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEmpty}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
                 <TextBlock Text="📁" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16" Opacity="0.3"/>
-                <TextBlock Text="No workspaces found" Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Center" Opacity="0.6"/>
-                <TextBlock Text="Create your first workspace to get started" Style="{StaticResource BodyTextStyle}" HorizontalAlignment="Center" Margin="0,4,0,0" Opacity="0.6"/>
+                <TextBlock Text="No workspaces" Style="{StaticResource SubHeaderTextStyle}" HorizontalAlignment="Center" Opacity="0.6"/>
+                <TextBlock Text="Click + Add to create one" Style="{StaticResource BodyTextStyle}" HorizontalAlignment="Center" Margin="0,4,0,0" Opacity="0.6"/>
             </StackPanel>
         </Grid>
+        
 
         <!-- Action Buttons -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Stretch">
@@ -172,6 +183,11 @@
                 Command="{Binding AddWorkspaceCommand}"
                 Margin="0,0,8,0"
                 HorizontalAlignment="Stretch"/>
+                <Button Content="✏️ Rename" 
+            Style="{StaticResource AnimatedButtonStyle}"
+            Command="{Binding RenameWorkspaceCommand}"
+            Margin="0,0,8,0"
+            HorizontalAlignment="Stretch"/>
             <Button Content="🗑️ Delete" 
                 Style="{StaticResource AnimatedButtonStyle}"
                 Command="{Binding DeleteWorkspaceCommand}"

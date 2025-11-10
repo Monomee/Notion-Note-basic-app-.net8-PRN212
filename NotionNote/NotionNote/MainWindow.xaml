@@ -18,7 +18,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280" MinWidth="250" MaxWidth="350"/>
+            <ColumnDefinition Width="280" MinWidth="360" MaxWidth="400"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="320" MinWidth="280" MaxWidth="400"/>
             <ColumnDefinition Width="Auto"/>

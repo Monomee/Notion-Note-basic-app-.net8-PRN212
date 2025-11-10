@@ -1,13 +1,14 @@
-﻿using System;
+﻿using NotionNote.Commands;
+using NotionNote.Models;
+using NotionNote.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
-using NotionNote.Models;
-using NotionNote.Services;
-using NotionNote.Commands;
 
 namespace NotionNote.ViewModels
 {
@@ -92,7 +93,7 @@ namespace NotionNote.ViewModels
             AddWorkspaceCommand = new RelayCommand(AddWorkspace, CanAddWorkspace);
             DeleteWorkspaceCommand = new RelayCommand(DeleteWorkspace, CanDeleteWorkspace);
             RefreshCommand = new RelayCommand(RefreshWorkspaces);
-            
+            RenameWorkspaceCommand = new RelayCommand(RenameWorkspace, CanRenameWorkspace);
             // Initialize filtered workspaces
             _filteredWorkspaces = new ObservableCollection<WorkspaceItemViewModel>(_workspaces);
         }
@@ -194,6 +195,8 @@ namespace NotionNote.ViewModels
         public ICommand DeleteWorkspaceCommand { get; }
         public ICommand RefreshCommand { get; }
 
+        public ICommand RenameWorkspaceCommand { get; }
+
         #endregion
 
         #region Command Implementations
@@ -233,6 +236,17 @@ namespace NotionNote.ViewModels
         {
             if (Selected == null) return;
 
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete workspace '{Selected.Name}'?\nAll pages in this workspace will also be deleted.",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
             IsBusy = true;
             try
             {
@@ -271,6 +285,18 @@ namespace NotionNote.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        private void RenameWorkspace()
+        {
+            if (Selected != null)
+            {
+                Selected.IsEditing = true;
+            }
+        }
+
+        private bool CanRenameWorkspace()
+        {
+            return Selected != null && !IsBusy;
         }
 
         #endregion

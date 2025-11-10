@@ -1,13 +1,14 @@
-﻿using System;
+﻿using NotionNote.Commands;
+using NotionNote.Models;
+using NotionNote.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
-using NotionNote.Models;
-using NotionNote.Services;
-using NotionNote.Commands;
 
 namespace NotionNote.ViewModels
 {
@@ -17,6 +18,7 @@ namespace NotionNote.ViewModels
         private readonly IPageService _pageService;
         private bool _isEditing;
         private string _title;
+
 
         public PageItemViewModel(Page page, IPageService pageService)
         {
@@ -240,6 +242,18 @@ namespace NotionNote.ViewModels
         {
             if (Selected == null) return;
 
+            // THÊM CONFIRM DIALOG
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete '{Selected.Title}'?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return; // User cancelled
+            }
+
             IsBusy = true;
             try
             {
@@ -281,6 +295,7 @@ namespace NotionNote.ViewModels
                 IsBusy = false;
             }
         }
+
 
         #endregion
 
