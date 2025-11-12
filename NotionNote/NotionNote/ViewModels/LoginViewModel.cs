@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NotionNote.ViewModels
@@ -189,12 +190,31 @@ namespace NotionNote.ViewModels
                     return;
                 }
 
+                // Show confirmation popup before creating account
+                var result = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn tạo tài khoản với tên đăng nhập '{Username}' không?",
+                    "Xác nhận tạo tài khoản",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
                 var user = _authService.Register(Username, Password);
 
                 if (user != null)
                 {
+                    // Show success message and auto login
+                    MessageBox.Show(
+                        $"Tài khoản '{user.Username}' đã được tạo thành công!",
+                        "Tạo tài khoản thành công",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+
                     AuthenticatedUser = user;
-                    // Close login window
+                    // Auto login - window will close
                 }
                 else
                 {

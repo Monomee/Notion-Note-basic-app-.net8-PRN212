@@ -18,6 +18,11 @@ namespace NotionNote.Converters
             {
                 return boolValue ? Visibility.Visible : Visibility.Collapsed;
             }
+            // Handle string (for ErrorMessage)
+            if (value is string stringValue)
+            {
+                return !string.IsNullOrEmpty(stringValue) ? Visibility.Visible : Visibility.Collapsed;
+            }
             return Visibility.Collapsed;
         }
 
@@ -42,6 +47,27 @@ namespace NotionNote.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool b) return !b;
+            return false;
+        }
+    }
+
+    public class InverseBooleanToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool boolValue)
+            {
+                return !boolValue ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Visibility visibility)
+            {
+                return visibility != Visibility.Visible;
+            }
             return false;
         }
     }

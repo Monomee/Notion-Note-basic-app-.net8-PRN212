@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NotionNote.ViewModels;
+using NotionNote.Views;
 
 namespace NotionNote
 {
@@ -26,7 +27,49 @@ namespace NotionNote
         private void InitializeDataContext(int userId)  // ← THÊM PARAMETER
         {
             // Create MainViewModel with userId
-            DataContext = new MainViewModel(userId);  // ← TRUYỀN userId
+            var viewModel = new MainViewModel(userId);  // ← TRUYỀN userId
+            DataContext = viewModel;
+            
+            // Subscribe to logout event
+            viewModel.LogoutRequested += ViewModel_LogoutRequested;
+        }
+
+        private void ViewModel_LogoutRequested(object? sender, EventArgs e)
+        {
+            // Change shutdown mode to prevent auto-shutdown when closing MainWindow
+            Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            
+            // Close MainWindow
+            this.Close();
+            
+            // Show login window again
+            var loginWindow = new LoginWindow();
+            var result = loginWindow.ShowDialog();
+            
+            if (result == true)
+            {
+                var user = loginWindow.AuthenticatedUser;
+                if (user != null)
+                {
+                    // Change shutdown mode back before showing new MainWindow
+                    Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+                    
+                    // Create new MainWindow with new user
+                    var newMainWindow = new MainWindow(user.UserId);
+                    Application.Current.MainWindow = newMainWindow;
+                    newMainWindow.Show();
+                }
+                else
+                {
+                    // User closed login window, shutdown app
+                    Application.Current.Shutdown();
+                }
+            }
+            else
+            {
+                // User closed login window, shutdown app
+                Application.Current.Shutdown();
+            }
         }
     }
 }
