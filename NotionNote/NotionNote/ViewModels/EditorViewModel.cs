@@ -201,6 +201,9 @@ namespace NotionNote.ViewModels
                     _pageService.UpdatePage(CurrentPage);
                     LastSavedAt = DateTime.Now;
                     IsDirty = false;
+                    
+                    // Fire event to notify PageListViewModel to refresh
+                    PageUpdated?.Invoke(this, CurrentPage);
                 }
                 else
                 {
@@ -216,6 +219,9 @@ namespace NotionNote.ViewModels
                     CurrentPage = _pageService.CreatePage(newPage);
                     LastSavedAt = DateTime.Now;
                     IsDirty = false;
+                    
+                    // Fire event to notify PageListViewModel to refresh
+                    PageUpdated?.Invoke(this, CurrentPage);
                 }
             }
             finally

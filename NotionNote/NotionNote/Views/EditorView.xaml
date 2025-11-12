@@ -96,12 +96,12 @@
                 ToolTip="Pin or unpin this page to keep it at the top"
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
                 Margin="0,0,8,0"/>
-            <Button Content="🗑️ Delete Page" 
+            <!--<Button Content="🗑️ Delete Page" 
                 Style="{StaticResource AnimatedButtonStyle}"
                 Command="{Binding DeleteCommand}"
                 ToolTip="Delete this page permanently"
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
-                Margin="0,0,8,0"/>
+                Margin="0,0,8,0"/>-->
             <Button Content="💾 Save" 
                 Style="{StaticResource AnimatedButtonStyle}"
                 Command="{Binding SaveCommand}"
@@ -147,6 +147,16 @@
 
             <!-- Empty State for Editor -->
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentPage}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
                 <TextBlock Text="📝" FontSize="64" HorizontalAlignment="Center" Margin="0,0,0,24" Opacity="0.3"/>
                 <TextBlock Text="No page selected" Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Center" Opacity="0.6" Margin="0,0,0,8"/>
                 <TextBlock Text="Select a page from the list to start editing" Style="{StaticResource BodyTextStyle}" HorizontalAlignment="Center" Opacity="0.6"/>

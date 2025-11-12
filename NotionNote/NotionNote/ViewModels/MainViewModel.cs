@@ -1,9 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using NotionNote.Models;
 using NotionNote.Services;
 using NotionNote.ViewModels;
+using NotionNote.Commands;
+using System.Windows.Input;
 using System.Windows;
 
 namespace NotionNote.ViewModels
@@ -34,6 +37,10 @@ namespace NotionNote.ViewModels
                 WorkSpaceListVM.PropertyChanged += WorkSpaceListVM_PropertyChanged;
                 PageListVM.PropertyChanged += PageListVM_PropertyChanged;
                 EditorVM.PageUpdated += EditorVM_PageUpdated;
+                
+                // Initialize commands
+                LogoutCommand = new RelayCommand(Logout);
+                
                 // Load initial data
                 LoadInitialData();
             }
@@ -50,6 +57,14 @@ namespace NotionNote.ViewModels
         public PageListViewModel PageListVM { get; }
         public EditorViewModel EditorVM { get; }
 
+        public ICommand LogoutCommand { get; }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler? LogoutRequested;
+
         #endregion
 
         #region Event Handlers
@@ -59,6 +74,9 @@ namespace NotionNote.ViewModels
             // When a workspace is selected, update the PageListViewModel's CurrentWorkspaceId
             if (e.PropertyName == nameof(WorkSpaceListViewModel.Selected))
             {
+                // Clear current page selection when switching workspace
+                EditorVM.CurrentPage = null;
+                
                 if (WorkSpaceListVM.Selected != null)
                 {
                     PageListVM.CurrentWorkspaceId = WorkSpaceListVM.Selected.WorkspaceId;
@@ -89,17 +107,41 @@ namespace NotionNote.ViewModels
         }
         private void EditorVM_PageUpdated(object? sender, Page updatedPage)
         {
-            // Refresh page list để update icon và re-sort
+            // Update page list to reflect changes (pin/unpin, title, etc.)
             if (PageListVM.CurrentWorkspaceId.HasValue)
             {
-                PageListVM.RefreshCommand.Execute(null);
-
-                // Re-select the updated page
-                var updatedItem = PageListVM.FilteredPages
-                    .FirstOrDefault(p => p.PageId == updatedPage.PageId);
-                if (updatedItem != null)
+                // Find the page item in the current list
+                var existingItem = PageListVM.Pages.FirstOrDefault(p => p.PageId == updatedPage.PageId);
+                
+                if (existingItem != null)
                 {
-                    PageListVM.Selected = updatedItem;
+                    // Update the underlying page data
+                    var page = existingItem.Page;
+                    page.Title = updatedPage.Title;
+                    page.IsPinned = updatedPage.IsPinned;
+                    page.UpdatedAt = updatedPage.UpdatedAt;
+                    
+                    // Update the view model properties
+                    existingItem.Title = updatedPage.Title;
+                    
+                    // Re-sort the filtered pages (pinned pages will move to top)
+                    PageListVM.UpdateFilteredPages();
+                    
+                    // Re-select the updated page
+                    PageListVM.Selected = existingItem;
+                }
+                else
+                {
+                    // If page not found, refresh the entire list
+                    PageListVM.RefreshCommand.Execute(null);
+                    
+                    // Re-select the updated page
+                    var updatedItem = PageListVM.FilteredPages
+                        .FirstOrDefault(p => p.PageId == updatedPage.PageId);
+                    if (updatedItem != null)
+                    {
+                        PageListVM.Selected = updatedItem;
+                    }
                 }
             }
         }
@@ -120,6 +162,22 @@ namespace NotionNote.ViewModels
             WorkSpaceListVM.Selected = WorkSpaceListVM.FilteredWorkspaces[0];
         }
     }
+
+        private void Logout()
+        {
+            // Show confirmation popup
+            var result = MessageBox.Show(
+                "Bạn có chắc chắn muốn đăng xuất không?",
+                "Xác nhận đăng xuất",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Fire event to notify MainWindow to handle logout
+                LogoutRequested?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         #endregion
 

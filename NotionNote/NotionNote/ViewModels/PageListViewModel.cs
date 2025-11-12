@@ -167,6 +167,8 @@ namespace NotionNote.ViewModels
                 {
                     _currentWorkspaceId = value;
                     OnPropertyChanged();
+                    // Clear selection when switching workspace
+                    Selected = null;
                     RefreshPages();
                 }
             }
@@ -222,8 +224,11 @@ namespace NotionNote.ViewModels
                 var createdPage = _pageService.CreatePage(newPage);
                 var pageItem = new PageItemViewModel(createdPage, _pageService);
                 
-                _pages.Insert(0, pageItem);
+                // Add to collection (will be sorted by UpdateFilteredPages)
+                _pages.Add(pageItem);
                 UpdateFilteredPages();
+                
+                // Select the new page
                 Selected = pageItem;
                 pageItem.IsEditing = true;
             }
@@ -301,7 +306,7 @@ namespace NotionNote.ViewModels
 
         #region Helper Methods
 
-        private void UpdateFilteredPages()
+        internal void UpdateFilteredPages()
         {
             var filtered = _pages.AsEnumerable();
 
@@ -312,6 +317,12 @@ namespace NotionNote.ViewModels
                     p.Title.ToLower().Contains(searchLower) ||
                     (p.Content != null && p.Content.ToLower().Contains(searchLower)));
             }
+
+            // Sort: Pinned pages first, then unpinned pages
+            // Within each group, sort by UpdatedAt descending
+            filtered = filtered
+                .OrderByDescending(p => p.IsPinned ?? false)
+                .ThenByDescending(p => p.UpdatedAt ?? p.CreatedAt ?? DateTime.MinValue);
 
             _filteredPages.Clear();
             foreach (var item in filtered)
