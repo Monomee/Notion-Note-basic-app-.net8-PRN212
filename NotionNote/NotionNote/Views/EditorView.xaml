@@ -79,7 +79,7 @@
         </Border>
 
         <!-- Toolbar -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
+        <StackPanel Grid.Row="1" Margin="0,0,0,16">
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -90,24 +90,186 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Style>
-            <Button Content="📌 Pin/Unpin" 
-                Style="{StaticResource AnimatedButtonStyle}"
-                Command="{Binding PinCommand}"
-                ToolTip="Pin or unpin this page to keep it at the top"
-                IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
-                Margin="0,0,8,0"/>
-            <!--<Button Content="🗑️ Delete Page" 
-                Style="{StaticResource AnimatedButtonStyle}"
-                Command="{Binding DeleteCommand}"
-                ToolTip="Delete this page permanently"
-                IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
-                Margin="0,0,8,0"/>-->
-            <Button Content="💾 Save" 
-                Style="{StaticResource AnimatedButtonStyle}"
-                Command="{Binding SaveCommand}"
-                ToolTip="Save changes to this page"
-                IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
-                Margin="0,0,8,0"/>
+            
+            <!-- Action Buttons -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <Button Content="📌 Pin/Unpin" 
+                    Style="{StaticResource AnimatedButtonStyle}"
+                    Command="{Binding PinCommand}"
+                    ToolTip="Pin or unpin this page to keep it at the top"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                    Margin="0,0,8,0"/>
+                <Button Content="💾 Save" 
+                    Style="{StaticResource AnimatedButtonStyle}"
+                    Command="{Binding SaveCommand}"
+                    ToolTip="Save changes to this page"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                    Margin="0,0,8,0"/>
+            </StackPanel>
+
+            <!-- Tags Section -->
+            <StackPanel>
+                <TextBlock Text="Tags:" 
+                          Style="{StaticResource SubHeaderTextStyle}"
+                          Margin="0,0,0,6"/>
+                
+                <!-- Selected Tags (Chips) -->
+                <ItemsControl ItemsSource="{Binding SelectedTags}" Margin="0,0,0,8">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{StaticResource PrimaryColor}"
+                                    CornerRadius="12"
+                                    Padding="8,4"
+                                    Margin="0,0,6,6">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" 
+                                              Foreground="White"
+                                              FontSize="11"
+                                              FontWeight="Medium"
+                                              VerticalAlignment="Center"
+                                              Margin="0,0,6,0"/>
+                                    <Button Command="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Padding="0"
+                                            Width="16"
+                                            Height="16"
+                                            Cursor="Hand">
+                                        <TextBlock Text="✕" 
+                                                  Foreground="White"
+                                                  FontSize="10"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Add Tag Input -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0"
+                             Text="{Binding NewTagInput, UpdateSourceTrigger=PropertyChanged}"
+                             ItemsSource="{Binding AvailableTags}"
+                             DisplayMemberPath="Name"
+                             IsEditable="True"
+                             Margin="0,0,8,0"
+                             KeyDown="ComboBox_KeyDown"
+                             SelectionChanged="ComboBox_SelectionChanged">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+                                <Setter Property="Padding" Value="8,6"/>
+                                <Setter Property="FontSize" Value="12"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ComboBox">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    CornerRadius="6"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}">
+                                                <Grid>
+                                                    <ToggleButton x:Name="ToggleButton"
+                                                                  Focusable="False"
+                                                                  IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                  ClickMode="Press"
+                                                                  Background="Transparent"
+                                                                  BorderThickness="0"/>
+                                                    <ContentPresenter x:Name="ContentSite"
+                                                                      IsHitTestVisible="False"
+                                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                                      Margin="8,0,20,0"
+                                                                      VerticalAlignment="Center"
+                                                                      HorizontalAlignment="Left"/>
+                                                    <TextBox x:Name="PART_EditableTextBox"
+                                                             HorizontalAlignment="Left"
+                                                             VerticalAlignment="Center"
+                                                             Margin="8,0,20,0"
+                                                             Focusable="True"
+                                                             Background="Transparent"
+                                                             BorderThickness="0"
+                                                             Padding="0"
+                                                             FontSize="12">
+                                                        <TextBox.Style>
+                                                            <Style TargetType="TextBox">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType=ComboBox}}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBox.Style>
+                                                    </TextBox>
+                                                    <TextBlock Text="▼" 
+                                                              Foreground="{StaticResource TextSecondaryColor}"
+                                                              HorizontalAlignment="Right"
+                                                              VerticalAlignment="Center"
+                                                              Margin="0,0,8,0"
+                                                              FontSize="10"/>
+                                                    <Popup x:Name="Popup"
+                                                           Placement="Bottom"
+                                                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                           AllowsTransparency="True"
+                                                           Focusable="False"
+                                                           PopupAnimation="Slide">
+                                                        <Border Background="{StaticResource BackgroundColor}"
+                                                                BorderBrush="{StaticResource BorderColor}"
+                                                                BorderThickness="1"
+                                                                CornerRadius="6"
+                                                                MaxHeight="200">
+                                                            <ScrollViewer>
+                                                                <ItemsPresenter/>
+                                                            </ScrollViewer>
+                                                        </Border>
+                                                    </Popup>
+                                                </Grid>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.Style>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Padding" Value="8,6"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ComboBoxItem">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <!--<Button Grid.Column="1"
+                            Content="+"
+                            Command="{Binding AddTagCommand}"
+                            Style="{StaticResource AnimatedButtonStyle}"
+                            Width="40"
+                            Padding="0"
+                            FontSize="16"
+                            FontWeight="Bold"/>-->
+                </Grid>
+            </StackPanel>
         </StackPanel>
 
         <!-- Content Editor -->

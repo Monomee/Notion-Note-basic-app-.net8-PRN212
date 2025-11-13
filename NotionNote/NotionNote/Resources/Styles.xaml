@@ -181,6 +181,18 @@
         </Setter>
     </Style>
 
+    <!-- Modern PasswordBox Style -->
+    <Style x:Key="ModernPasswordBoxStyle" TargetType="PasswordBox">
+        <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Height" Value="36"/>
+    </Style>
+
     <!-- Modern ListBox Style -->
     <Style x:Key="ModernListBoxStyle" TargetType="ListBox">
         <Setter Property="Background" Value="Transparent"/>

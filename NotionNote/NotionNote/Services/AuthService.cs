@@ -59,5 +59,35 @@ namespace NotionNote.Services
         {
             return _context.Users.Any(u => u.Username == username);
         }
+
+        public bool ChangePassword(int userId, string oldPassword, string newPassword)
+        {
+            if (string.IsNullOrWhiteSpace(oldPassword) || string.IsNullOrWhiteSpace(newPassword))
+            {
+                return false;
+            }
+
+            var user = _context.Users.Find(userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Verify old password
+            if (user.PasswordHash != oldPassword)
+            {
+                return false;
+            }
+
+            // Update password
+            user.PasswordHash = newPassword; // Simple, no hashing
+            _context.SaveChanges();
+            return true;
+        }
+
+        public User? GetUserById(int userId)
+        {
+            return _context.Users.Find(userId);
+        }
     }
 }

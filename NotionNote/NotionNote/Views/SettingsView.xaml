@@ -1,0 +1,68 @@
+<UserControl x:Class="NotionNote.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16">
+            <TextBlock Text="Settings" 
+                      Style="{StaticResource HeaderTextStyle}"
+                      Margin="0,0,0,24"/>
+            
+            <!-- Appearance Section -->
+            <TextBlock Text="Appearance" 
+                      Style="{StaticResource SubHeaderTextStyle}"
+                      Margin="0,0,0,12"/>
+            
+            <!-- Theme Selection -->
+            <Border Background="{StaticResource SurfaceColor}"
+                    CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource BorderColor}"
+                    Padding="16"
+                    Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Theme" 
+                              Style="{StaticResource SubHeaderTextStyle}"
+                              Margin="0,0,0,12"/>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <RadioButton Content="☀️ Light"
+                                    IsChecked="{Binding IsDarkMode, Converter={StaticResource InverseBooleanConverter}}"
+                                    GroupName="Theme"
+                                    Margin="0,0,16,0"
+                                    VerticalAlignment="Center">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton">
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+                                    <EventSetter Event="Checked" Handler="RadioButton_Checked"/>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+                        <RadioButton Content="🌙 Dark"
+                                    IsChecked="{Binding IsDarkMode}"
+                                    GroupName="Theme"
+                                    VerticalAlignment="Center">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton">
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+                                    <EventSetter Event="Checked" Handler="RadioButton_Checked"/>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+                    </StackPanel>
+                    
+                    <TextBlock Text="Chọn theme sáng hoặc tối cho ứng dụng" 
+                              Style="{StaticResource BodyTextStyle}"
+                              Opacity="0.7"
+                              TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
+

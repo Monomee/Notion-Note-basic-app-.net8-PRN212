@@ -1,0 +1,42 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Light Theme Colors -->
+    <ResourceDictionary x:Key="LightTheme">
+        <SolidColorBrush x:Key="PrimaryColor" Color="#2563EB"/>
+        <SolidColorBrush x:Key="PrimaryLightColor" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="PrimaryDarkColor" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#64748B"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#10B981"/>
+        <SolidColorBrush x:Key="BackgroundColor" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="SurfaceColor" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#E2E8F0"/>
+        <SolidColorBrush x:Key="TextPrimaryColor" Color="#1E293B"/>
+        <SolidColorBrush x:Key="TextSecondaryColor" Color="#64748B"/>
+        <SolidColorBrush x:Key="HoverColor" Color="#F1F5F9"/>
+        <SolidColorBrush x:Key="SelectedColor" Color="#E0F2FE"/>
+        <SolidColorBrush x:Key="ErrorColor" Color="#EF4444"/>
+        <SolidColorBrush x:Key="SuccessColor" Color="#10B981"/>
+        <SolidColorBrush x:Key="WarningColor" Color="#F59E0B"/>
+    </ResourceDictionary>
+
+    <!-- Dark Theme Colors -->
+    <ResourceDictionary x:Key="DarkTheme">
+        <SolidColorBrush x:Key="PrimaryColor" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="PrimaryLightColor" Color="#60A5FA"/>
+        <SolidColorBrush x:Key="PrimaryDarkColor" Color="#2563EB"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#10B981"/>
+        <SolidColorBrush x:Key="BackgroundColor" Color="#0F172A"/>
+        <SolidColorBrush x:Key="SurfaceColor" Color="#1E293B"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#334155"/>
+        <SolidColorBrush x:Key="TextPrimaryColor" Color="#F1F5F9"/>
+        <SolidColorBrush x:Key="TextSecondaryColor" Color="#CBD5E1"/>
+        <SolidColorBrush x:Key="HoverColor" Color="#334155"/>
+        <SolidColorBrush x:Key="SelectedColor" Color="#1E3A8A"/>
+        <SolidColorBrush x:Key="ErrorColor" Color="#EF4444"/>
+        <SolidColorBrush x:Key="SuccessColor" Color="#10B981"/>
+        <SolidColorBrush x:Key="WarningColor" Color="#F59E0B"/>
+    </ResourceDictionary>
+</ResourceDictionary>
+

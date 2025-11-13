@@ -116,7 +116,7 @@ namespace NotionNote.ViewModels
                 if (_authenticatedUser != value)
                 {
                     _authenticatedUser = value;
-                    OnPropertyChanged();  // ← QUAN TRỌNG!
+                    OnPropertyChanged();  
                 }
             }
         }

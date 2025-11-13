@@ -18,16 +18,16 @@ namespace NotionNote
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(int userId)  // ← THÊM PARAMETER
+        public MainWindow(int userId)  
         {
             InitializeComponent();
-            InitializeDataContext(userId);  // ← TRUYỀN userId
+            InitializeDataContext(userId);  
         }
 
-        private void InitializeDataContext(int userId)  // ← THÊM PARAMETER
+        private void InitializeDataContext(int userId)  
         {
             // Create MainViewModel with userId
-            var viewModel = new MainViewModel(userId);  // ← TRUYỀN userId
+            var viewModel = new MainViewModel(userId); 
             DataContext = viewModel;
             
             // Subscribe to logout event

@@ -12,5 +12,7 @@ namespace NotionNote.Services
         User? Login(string username, string password);
         User? Register(string username, string password);
         bool UsernameExists(string username);
+        bool ChangePassword(int userId, string oldPassword, string newPassword);
+        User? GetUserById(int userId);
     }
 }

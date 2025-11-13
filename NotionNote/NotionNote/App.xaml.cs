@@ -13,7 +13,7 @@ namespace NotionNote
         {
             base.OnStartup(e);
 
-            // SET SHUTDOWN MODE - QUAN TRỌNG!
+
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             // Seed database first

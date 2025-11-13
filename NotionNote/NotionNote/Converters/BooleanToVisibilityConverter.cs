@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace NotionNote.Converters
 {
-    class BooleanToVisibilityConverter: IValueConverter
+    public class BooleanToVisibilityConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -71,6 +71,9 @@ namespace NotionNote.Converters
             return false;
         }
     }
+
+
+    //==========================Not use=======================
     public class BooleanToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
