@@ -48,12 +48,14 @@ namespace NotionNote.ViewModels
                 SettingsVM = new SettingsViewModel();
                 UserProfileVM = new UserProfileViewModel(_authService, _currentUserId);
                 TagManagementVM = new TagManagementViewModel(_tagService);
+                TrashVM = new TrashViewModel(_pageService, _workspaceService, _currentUserId);
 
                
                 WorkSpaceListVM.PropertyChanged += WorkSpaceListVM_PropertyChanged;
                 PageListVM.PropertyChanged += PageListVM_PropertyChanged;
                 EditorVM.PageUpdated += EditorVM_PageUpdated;
                 SidebarVM.PropertyChanged += SidebarVM_PropertyChanged;
+                TrashVM.ItemRestored += TrashVM_ItemRestored;
                 
              
                 LoadInitialData();
@@ -74,6 +76,7 @@ namespace NotionNote.ViewModels
         public SettingsViewModel SettingsVM { get; }
         public UserProfileViewModel UserProfileVM { get; }
         public TagManagementViewModel TagManagementVM { get; }
+        public TrashViewModel TrashVM { get; }
 
         public MainViewType CurrentView
         {
@@ -203,7 +206,22 @@ namespace NotionNote.ViewModels
                     case SidebarContentType.TagManagement:
                         CurrentView = MainViewType.TagManagement;
                         break;
+                    case SidebarContentType.Trash:
+                        CurrentView = MainViewType.Trash;
+                        break;
                 }
+            }
+        }
+
+        private void TrashVM_ItemRestored(object? sender, EventArgs e)
+        {
+            // Refresh workspaces and pages when an item is restored from trash
+            WorkSpaceListVM.RefreshCommand.Execute(null);
+            
+            // If a workspace is currently selected, refresh its pages
+            if (PageListVM.CurrentWorkspaceId.HasValue)
+            {
+                PageListVM.RefreshCommand.Execute(null);
             }
         }
 
@@ -260,7 +278,8 @@ namespace NotionNote.ViewModels
         Main,
         Settings,
         UserProfile,
-        TagManagement
+        TagManagement,
+        Trash
     }
 }
 

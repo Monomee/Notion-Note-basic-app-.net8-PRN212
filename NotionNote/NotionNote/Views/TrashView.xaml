@@ -1,0 +1,198 @@
+<UserControl x:Class="NotionNote.Views.TrashView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                Background="{StaticResource SurfaceColor}"
+                Padding="16"
+                BorderThickness="0,0,0,1"
+                BorderBrush="{StaticResource BorderColor}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="🗑️ Thùng rác" 
+                              Style="{StaticResource HeaderTextStyle}"
+                              Margin="0,0,0,4"/>
+                    <TextBlock Text="Các mục đã xóa sẽ được lưu ở đây. Bạn có thể khôi phục hoặc xóa vĩnh viễn."
+                              Style="{StaticResource BodyTextStyle}"
+                              Opacity="0.7"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="🔄 Làm mới"
+                            Command="{Binding RefreshCommand}"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Margin="0,0,8,0"
+                            Padding="12,8"/>
+                    <Button Content="↩️ Khôi phục"
+                            Command="{Binding RestoreCommand}"
+                            Margin="0,0,8,0"
+                            Padding="12,8">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Selected.IsRestoreDisabled}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="🗑️ Xóa vĩnh viễn"
+                            Command="{Binding HardDeleteCommand}"
+                            Style="{StaticResource AnimatedButtonStyle}"
+                            Padding="12,8"
+                            Background="{StaticResource ErrorColor}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Items List -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ListBox ItemsSource="{Binding Items}" 
+                     SelectedItem="{Binding Selected, Mode=TwoWay}"
+                     Margin="16"
+                     BorderThickness="0"
+                     Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1"
+                                BorderBrush="{StaticResource BorderColor}"
+                                CornerRadius="8"
+                                Padding="16"
+                                Margin="0,0,0,12"
+                                Cursor="Hand">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="{StaticResource SurfaceColor}"/>
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource SelectedColor}"/>
+                                        </DataTrigger>
+                                        <!-- Make items with disabled restore appear faded -->
+                                        <DataTrigger Binding="{Binding IsRestoreDisabled}" Value="True">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                            <Setter Property="Background" Value="{StaticResource BorderColor}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Type Icon -->
+                                <TextBlock Grid.Column="0"
+                                          FontSize="24"
+                                          Margin="0,0,12,0"
+                                          VerticalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="📄"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Type}" Value="Workspace">
+                                                    <Setter Property="Text" Value="📁"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <!-- Item Info -->
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Name}"
+                                              Style="{StaticResource SubHeaderTextStyle}"
+                                              Margin="0,0,0,4"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Type}"
+                                                  Style="{StaticResource BodyTextStyle}"
+                                                  Opacity="0.7"
+                                                  Margin="0,0,8,0"/>
+                                        <TextBlock Text="•"
+                                                  Style="{StaticResource BodyTextStyle}"
+                                                  Opacity="0.7"
+                                                  Margin="0,0,8,0"/>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Đã xóa: {0:dd/MM/yyyy HH:mm}">
+                                                    <Binding Path="DeletedAt"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <!-- Show warning for pages that belong to deleted workspace -->
+                                        <TextBlock Foreground="{StaticResource ErrorColor}"
+                                                  Margin="8,0,0,0"
+                                                  FontStyle="Italic">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat=" (Không thể khôi phục - Workspace {0} đã bị xóa)">
+                                                    <Binding Path="WorkspaceName"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextStyle}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsRestoreDisabled}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+
+        <!-- Empty State -->
+        <Border Grid.Row="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Items.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel>
+                <TextBlock Text="🗑️" FontSize="64" HorizontalAlignment="Center" Opacity="0.3"/>
+                <TextBlock Text="Thùng rác trống" 
+                          Style="{StaticResource HeaderTextStyle}"
+                          HorizontalAlignment="Center"
+                          Margin="0,16,0,8"/>
+                <TextBlock Text="Các mục đã xóa sẽ xuất hiện ở đây" 
+                          Style="{StaticResource BodyTextStyle}"
+                          HorizontalAlignment="Center"
+                          Opacity="0.6"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
+

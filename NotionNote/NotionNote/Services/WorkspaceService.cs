@@ -16,6 +16,8 @@ namespace NotionNote.Services
 
         public Workspace CreateWorkspace(Workspace workspace)
         {
+            // Ensure new workspaces are active
+            workspace.IsActive = true;
             _context.Workspaces.Add(workspace);
             _context.SaveChanges();
             return workspace;
@@ -23,17 +25,18 @@ namespace NotionNote.Services
 
         public Workspace? GetWorkspaceById(int workspaceId)
         {
-            return _context.Workspaces
-                .Include(w => w.Pages)
+            var workspace = _context.Workspaces
+                .Include(w => w.Pages.Where(p => p.IsActive))
                 .Include(w => w.User)
-                .FirstOrDefault(w => w.WorkspaceId == workspaceId);
+                .FirstOrDefault(w => w.WorkspaceId == workspaceId && w.IsActive);
+            return workspace;
         }
 
         public IEnumerable<Workspace> GetWorkspacesByUserId(int userId)
         {
             return _context.Workspaces
-                .Include(w => w.Pages)
-                .Where(w => w.UserId == userId)
+                .Include(w => w.Pages.Where(p => p.IsActive))
+                .Where(w => w.UserId == userId && w.IsActive)
                 .OrderByDescending(w => w.CreatedAt)
                 .ToList();
         }
@@ -47,12 +50,66 @@ namespace NotionNote.Services
 
         public void DeleteWorkspace(int workspaceId)
         {
-            var workspace = _context.Workspaces.Find(workspaceId);
+            // Soft delete: set IsActive = false for workspace and all its pages
+            var workspace = _context.Workspaces
+                .Include(w => w.Pages)
+                .FirstOrDefault(w => w.WorkspaceId == workspaceId);
+            
             if (workspace != null)
             {
+                workspace.IsActive = false;
+                // Also soft delete all pages in this workspace
+                foreach (var page in workspace.Pages)
+                {
+                    page.IsActive = false;
+                }
+                _context.SaveChanges();
+            }
+        }
+
+        public void HardDeleteWorkspace(int workspaceId)
+        {
+            // Permanent delete from database (also delete all pages)
+            var workspace = _context.Workspaces
+                .Include(w => w.Pages)
+                .FirstOrDefault(w => w.WorkspaceId == workspaceId);
+            
+            if (workspace != null)
+            {
+                // Delete all pages first
+                _context.Pages.RemoveRange(workspace.Pages);
                 _context.Workspaces.Remove(workspace);
                 _context.SaveChanges();
             }
+        }
+
+        public void RestoreWorkspace(int workspaceId)
+        {
+            // Restore deleted workspace and all its pages
+            var workspace = _context.Workspaces
+                .Include(w => w.Pages)
+                .FirstOrDefault(w => w.WorkspaceId == workspaceId);
+            
+            if (workspace != null)
+            {
+                workspace.IsActive = true;
+                // Also restore all pages in this workspace
+                foreach (var page in workspace.Pages)
+                {
+                    page.IsActive = true;
+                }
+                _context.SaveChanges();
+            }
+        }
+
+        public IEnumerable<Workspace> GetDeletedWorkspaces(int userId)
+        {
+            // Get all deleted workspaces for a user
+            return _context.Workspaces
+                .Include(w => w.Pages)
+                .Where(w => !w.IsActive && w.UserId == userId)
+                .OrderByDescending(w => w.CreatedAt)
+                .ToList();
         }
 
         public IEnumerable<Workspace> SearchWorkspaces(string searchTerm)
@@ -61,8 +118,8 @@ namespace NotionNote.Services
                 return new List<Workspace>();
 
             return _context.Workspaces
-                .Include(w => w.Pages)
-                .Where(w => w.Name.Contains(searchTerm))
+                .Include(w => w.Pages.Where(p => p.IsActive))
+                .Where(w => w.IsActive && w.Name.Contains(searchTerm))
                 .OrderByDescending(w => w.CreatedAt)
                 .ToList();
         }

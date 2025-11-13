@@ -9,8 +9,11 @@ namespace NotionNote.Services
         Workspace? GetWorkspaceById(int workspaceId);
         IEnumerable<Workspace> GetWorkspacesByUserId(int userId);
         Workspace UpdateWorkspace(Workspace workspace);
-        void DeleteWorkspace(int workspaceId);
+        void DeleteWorkspace(int workspaceId); // Soft delete (set IsActive = false, and all pages)
         IEnumerable<Workspace> SearchWorkspaces(string searchTerm);
+        IEnumerable<Workspace> GetDeletedWorkspaces(int userId);
+        void HardDeleteWorkspace(int workspaceId); // Permanent delete from database
+        void RestoreWorkspace(int workspaceId); // Restore deleted workspace and its pages
     }
 }
 

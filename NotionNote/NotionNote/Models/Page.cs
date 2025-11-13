@@ -19,6 +19,8 @@ public partial class Page
 
     public int WorkspaceId { get; set; }
 
+    public bool IsActive { get; set; }
+
     public virtual Workspace Workspace { get; set; } = null!;
 
     public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
