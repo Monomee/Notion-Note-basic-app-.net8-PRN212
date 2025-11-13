@@ -260,14 +260,14 @@
                             </Style>
                         </ComboBox.ItemContainerStyle>
                     </ComboBox>
-                    <Button Grid.Column="1"
+                    <!--<Button Grid.Column="1"
                             Content="+"
                             Command="{Binding AddTagCommand}"
                             Style="{StaticResource AnimatedButtonStyle}"
                             Width="40"
                             Padding="0"
                             FontSize="16"
-                            FontWeight="Bold"/>
+                            FontWeight="Bold"/>-->
                 </Grid>
             </StackPanel>
         </StackPanel>

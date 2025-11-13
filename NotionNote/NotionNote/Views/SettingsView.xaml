@@ -9,12 +9,59 @@
         <StackPanel Margin="16">
             <TextBlock Text="Settings" 
                       Style="{StaticResource HeaderTextStyle}"
-                      Margin="0,0,0,16"/>
+                      Margin="0,0,0,24"/>
             
-            <TextBlock Text="Các cài đặt sẽ được thêm vào đây trong tương lai." 
-                      Style="{StaticResource BodyTextStyle}"
-                      TextWrapping="Wrap"
-                      Opacity="0.6"/>
+            <!-- Appearance Section -->
+            <TextBlock Text="Appearance" 
+                      Style="{StaticResource SubHeaderTextStyle}"
+                      Margin="0,0,0,12"/>
+            
+            <!-- Theme Selection -->
+            <Border Background="{StaticResource SurfaceColor}"
+                    CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource BorderColor}"
+                    Padding="16"
+                    Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Theme" 
+                              Style="{StaticResource SubHeaderTextStyle}"
+                              Margin="0,0,0,12"/>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <RadioButton Content="☀️ Light"
+                                    IsChecked="{Binding IsDarkMode, Converter={StaticResource InverseBooleanConverter}}"
+                                    GroupName="Theme"
+                                    Margin="0,0,16,0"
+                                    VerticalAlignment="Center">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton">
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+                                    <EventSetter Event="Checked" Handler="RadioButton_Checked"/>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+                        <RadioButton Content="🌙 Dark"
+                                    IsChecked="{Binding IsDarkMode}"
+                                    GroupName="Theme"
+                                    VerticalAlignment="Center">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton">
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+                                    <EventSetter Event="Checked" Handler="RadioButton_Checked"/>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+                    </StackPanel>
+                    
+                    <TextBlock Text="Chọn theme sáng hoặc tối cho ứng dụng" 
+                              Style="{StaticResource BodyTextStyle}"
+                              Opacity="0.7"
+                              TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
