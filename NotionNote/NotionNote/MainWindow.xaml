@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotionNote"
         xmlns:views="clr-namespace:NotionNote.Views"
+        xmlns:converters="clr-namespace:NotionNote.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
@@ -15,47 +16,72 @@
             <Setter Property="Background" Value="{StaticResource BorderColor}"/>
             <Setter Property="Margin" Value="0"/>
         </Style>
+        <converters:SidebarTotalWidthConverter x:Key="SidebarTotalWidthConverter"/>
+        <converters:ContentVisibilityConverter x:Key="ContentVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280" MinWidth="360" MaxWidth="400"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="320" MinWidth="280" MaxWidth="400"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" MinWidth="400"/>
+            <ColumnDefinition Width="{Binding SidebarVM.IsExpanded, Converter={StaticResource SidebarTotalWidthConverter}}"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Left Panel: Workspaces -->
-        <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="12,12,6,12">
-            <views:WorkSpaceListView DataContext="{Binding WorkSpaceListVM}" />
-        </Border>
+        <!-- Sidebar -->
+        <views:SidebarView Grid.Column="0" DataContext="{Binding SidebarVM}" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
-        <!-- Divider 1 -->
-        <Border Grid.Column="1" Style="{StaticResource DividerStyle}" Margin="0,12,0,12"/>
+        <!-- Main Content Area -->
+        <Grid Grid.Column="1">
+            <!-- Main View (Workspaces, Pages, Editor) -->
+            <Grid Visibility="{Binding CurrentView, Converter={StaticResource ContentVisibilityConverter}, ConverterParameter=Main}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="280" MinWidth="360" MaxWidth="400"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="320" MinWidth="280" MaxWidth="400"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" MinWidth="400"/>
+                </Grid.ColumnDefinitions>
 
-        <!-- Middle Panel: Pages -->
-        <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="6,12,6,12">
-            <views:PageListView DataContext="{Binding PageListVM}" />
-        </Border>
+                <!-- Left Panel: Workspaces -->
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="12,12,6,12">
+                    <views:WorkSpaceListView DataContext="{Binding WorkSpaceListVM}" />
+                </Border>
 
-        <!-- Divider 2 -->
-        <Border Grid.Column="3" Style="{StaticResource DividerStyle}" Margin="0,12,0,12"/>
+                <!-- Divider 1 -->
+                <Border Grid.Column="1" Style="{StaticResource DividerStyle}" Margin="0,12,0,12"/>
 
-        <!-- Right Panel: Editor -->
-        <Border Grid.Column="4" Style="{StaticResource CardStyle}" Margin="6,12,12,12">
-            <views:EditorView DataContext="{Binding EditorVM}" />
-        </Border>
+                <!-- Middle Panel: Pages -->
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="6,12,6,12">
+                    <views:PageListView DataContext="{Binding PageListVM}" />
+                </Border>
 
-        <!-- Logout Button - Overlay on top -->
-        <Button Grid.Column="4"
-                Content="Log out" 
-                Command="{Binding LogoutCommand}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,12,12,0"
-                Padding="12,6"
-                Style="{StaticResource AnimatedButtonStyle}"
-                FontSize="12"
-                Panel.ZIndex="100"/>
+                <!-- Divider 2 -->
+                <Border Grid.Column="3" Style="{StaticResource DividerStyle}" Margin="0,12,0,12"/>
+
+                <!-- Right Panel: Editor -->
+                <Border Grid.Column="4" Style="{StaticResource CardStyle}" Margin="6,12,12,12">
+                    <views:EditorView DataContext="{Binding EditorVM}" />
+                </Border>
+            </Grid>
+
+            <!-- Settings View -->
+            <Border Visibility="{Binding CurrentView, Converter={StaticResource ContentVisibilityConverter}, ConverterParameter=Settings}"
+                    Style="{StaticResource CardStyle}"
+                    Margin="12">
+                <views:SettingsView DataContext="{Binding SettingsVM}"/>
+            </Border>
+
+            <!-- User Profile View -->
+            <Border Visibility="{Binding CurrentView, Converter={StaticResource ContentVisibilityConverter}, ConverterParameter=UserProfile}"
+                    Style="{StaticResource CardStyle}"
+                    Margin="12">
+                <views:UserProfileView DataContext="{Binding UserProfileVM}"/>
+            </Border>
+
+            <!-- Tag Management View -->
+            <Border Visibility="{Binding CurrentView, Converter={StaticResource ContentVisibilityConverter}, ConverterParameter=TagManagement}"
+                    Style="{StaticResource CardStyle}"
+                    Margin="12">
+                <views:TagManagementView DataContext="{Binding TagManagementVM}"/>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

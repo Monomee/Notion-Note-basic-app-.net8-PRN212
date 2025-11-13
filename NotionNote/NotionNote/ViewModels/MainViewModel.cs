@@ -16,32 +16,46 @@ namespace NotionNote.ViewModels
         private readonly NoteHubDbContext _dbContext;
         private readonly IPageService _pageService;
         private readonly IWorkspaceService _workspaceService;
+        private readonly IAuthService _authService;
+        private readonly ITagService _tagService;
         private readonly int _currentUserId;
+        private MainViewType _currentView = MainViewType.Main;
+        
         public MainViewModel(int userId)
         {
-            _currentUserId = userId;  // ? LƯU userId
+            _currentUserId = userId;  
 
             try
             {
-                // Initialize DbContext and services
+                
                 _dbContext = new NoteHubDbContext();
                 _pageService = new PageService(_dbContext);
                 _workspaceService = new WorkspaceService(_dbContext);
+                _authService = new AuthService(_dbContext);
+                _tagService = new TagService(_dbContext);
 
-                // Initialize ViewModels
+            
                 WorkSpaceListVM = new WorkSpaceListViewModel(_workspaceService);
                 PageListVM = new PageListViewModel(_pageService);
-                EditorVM = new EditorViewModel(_pageService);
+                EditorVM = new EditorViewModel(_pageService, _tagService);
+                SidebarVM = new SidebarViewModel(_authService, _tagService, _currentUserId);
+                
+                // Set LogoutCommand for Sidebar
+                LogoutCommand = new RelayCommand(Logout);
+                SidebarVM.LogoutCommand = LogoutCommand;
 
-                // Set up event handlers
+                // Initialize child ViewModels for settings views
+                SettingsVM = new SettingsViewModel();
+                UserProfileVM = new UserProfileViewModel(_authService, _currentUserId);
+                TagManagementVM = new TagManagementViewModel(_tagService);
+
+               
                 WorkSpaceListVM.PropertyChanged += WorkSpaceListVM_PropertyChanged;
                 PageListVM.PropertyChanged += PageListVM_PropertyChanged;
                 EditorVM.PageUpdated += EditorVM_PageUpdated;
+                SidebarVM.PropertyChanged += SidebarVM_PropertyChanged;
                 
-                // Initialize commands
-                LogoutCommand = new RelayCommand(Logout);
-                
-                // Load initial data
+             
                 LoadInitialData();
             }
             catch (Exception ex)
@@ -56,6 +70,23 @@ namespace NotionNote.ViewModels
         public WorkSpaceListViewModel WorkSpaceListVM { get; }
         public PageListViewModel PageListVM { get; }
         public EditorViewModel EditorVM { get; }
+        public SidebarViewModel SidebarVM { get; }
+        public SettingsViewModel SettingsVM { get; }
+        public UserProfileViewModel UserProfileVM { get; }
+        public TagManagementViewModel TagManagementVM { get; }
+
+        public MainViewType CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                if (_currentView != value)
+                {
+                    _currentView = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public ICommand LogoutCommand { get; }
 
@@ -80,10 +111,12 @@ namespace NotionNote.ViewModels
                 if (WorkSpaceListVM.Selected != null)
                 {
                     PageListVM.CurrentWorkspaceId = WorkSpaceListVM.Selected.WorkspaceId;
+                    EditorVM.CurrentWorkspaceId = WorkSpaceListVM.Selected.WorkspaceId;
                 }
                 else
                 {
                     PageListVM.CurrentWorkspaceId = null;
+                    EditorVM.CurrentWorkspaceId = null;
                 }
             }
         }
@@ -103,6 +136,11 @@ namespace NotionNote.ViewModels
                 {
                     EditorVM.CurrentPage = null;
                 }
+            }
+            // When workspace changes, update EditorViewModel's CurrentWorkspaceId
+            else if (e.PropertyName == nameof(PageListViewModel.CurrentWorkspaceId))
+            {
+                EditorVM.CurrentWorkspaceId = PageListVM.CurrentWorkspaceId;
             }
         }
         private void EditorVM_PageUpdated(object? sender, Page updatedPage)
@@ -146,6 +184,29 @@ namespace NotionNote.ViewModels
             }
         }
 
+        private void SidebarVM_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SidebarViewModel.CurrentContent))
+            {
+                // Map SidebarContentType to MainViewType
+                switch (SidebarVM.CurrentContent)
+                {
+                    case SidebarContentType.None:
+                        CurrentView = MainViewType.Main;
+                        break;
+                    case SidebarContentType.Settings:
+                        CurrentView = MainViewType.Settings;
+                        break;
+                    case SidebarContentType.UserProfile:
+                        CurrentView = MainViewType.UserProfile;
+                        break;
+                    case SidebarContentType.TagManagement:
+                        CurrentView = MainViewType.TagManagement;
+                        break;
+                }
+            }
+        }
+
         #endregion
 
         #region Helper Methods
@@ -153,13 +214,14 @@ namespace NotionNote.ViewModels
         private void LoadInitialData()
     {
         // Load workspaces for the logged-in user
-        WorkSpaceListVM.CurrentUserId = _currentUserId;  // ? S? D?NG userId
+        WorkSpaceListVM.CurrentUserId = _currentUserId;
         
         WorkSpaceListVM.RefreshCommand.Execute(null);
         
         if (WorkSpaceListVM.FilteredWorkspaces.Count > 0)
         {
             WorkSpaceListVM.Selected = WorkSpaceListVM.FilteredWorkspaces[0];
+            // This will trigger WorkSpaceListVM_PropertyChanged which sets EditorVM.CurrentWorkspaceId
         }
     }
 
@@ -191,6 +253,14 @@ namespace NotionNote.ViewModels
         }
 
         #endregion
+    }
+
+    public enum MainViewType
+    {
+        Main,
+        Settings,
+        UserProfile,
+        TagManagement
     }
 }
 
