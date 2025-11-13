@@ -43,6 +43,12 @@ namespace NotionNote.ViewModels
                     ? SidebarContentType.None 
                     : SidebarContentType.TagManagement;
             });
+            ShowTrashCommand = new RelayCommand(() => 
+            {
+                CurrentContent = CurrentContent == SidebarContentType.Trash 
+                    ? SidebarContentType.None 
+                    : SidebarContentType.Trash;
+            });
             ShowMainCommand = new RelayCommand(() => CurrentContent = SidebarContentType.None);
             CloseContentCommand = new RelayCommand(() => CurrentContent = SidebarContentType.None);
 
@@ -103,6 +109,7 @@ namespace NotionNote.ViewModels
         public ICommand ShowSettingsCommand { get; }
         public ICommand ShowUserProfileCommand { get; }
         public ICommand ShowTagManagementCommand { get; }
+        public ICommand ShowTrashCommand { get; }
         public ICommand ShowMainCommand { get; }
         public ICommand CloseContentCommand { get; }
         public ICommand? LogoutCommand { get; set; }
@@ -161,7 +168,8 @@ namespace NotionNote.ViewModels
         None,
         Settings,
         UserProfile,
-        TagManagement
+        TagManagement,
+        Trash
     }
 }
 

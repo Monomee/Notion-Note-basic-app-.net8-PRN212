@@ -82,6 +82,13 @@
                     Margin="12">
                 <views:TagManagementView DataContext="{Binding TagManagementVM}"/>
             </Border>
+
+            <!-- Trash View -->
+            <Border Visibility="{Binding CurrentView, Converter={StaticResource ContentVisibilityConverter}, ConverterParameter=Trash}"
+                    Style="{StaticResource CardStyle}"
+                    Margin="12">
+                <views:TrashView DataContext="{Binding TrashVM}"/>
+            </Border>
         </Grid>
     </Grid>
 </Window>

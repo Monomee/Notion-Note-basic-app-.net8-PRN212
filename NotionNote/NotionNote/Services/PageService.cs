@@ -50,12 +50,46 @@ namespace NotionNote.Services
 
         public void DeletePage(int pageId)
         {
+            // Soft delete: set IsActive = false
+            var page = _context.Pages.Find(pageId);
+            if (page != null)
+            {
+                page.IsActive = false;
+                _context.SaveChanges();
+            }
+        }
+
+        public void HardDeletePage(int pageId)
+        {
+            // Permanent delete from database
             var page = _context.Pages.Find(pageId);
             if (page != null)
             {
                 _context.Pages.Remove(page);
                 _context.SaveChanges();
             }
+        }
+
+        public void RestorePage(int pageId)
+        {
+            // Restore deleted page
+            var page = _context.Pages.Find(pageId);
+            if (page != null)
+            {
+                page.IsActive = true;
+                _context.SaveChanges();
+            }
+        }
+
+        public IEnumerable<Page> GetDeletedPages(int userId)
+        {
+            // Get all deleted pages for a user (through workspaces)
+            return _context.Pages
+                .Include(p => p.Workspace)
+                .Include(p => p.Tags)
+                .Where(p => !p.IsActive && p.Workspace.UserId == userId)
+                .OrderByDescending(p => p.UpdatedAt ?? p.CreatedAt)
+                .ToList();
         }
 
         public IEnumerable<Page> SearchPages(string searchTerm)

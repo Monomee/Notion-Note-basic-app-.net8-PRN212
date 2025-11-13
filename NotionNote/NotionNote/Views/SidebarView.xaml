@@ -142,6 +142,22 @@
                             </Style>
                         </Button.Style>
                     </Button>
+
+                    <Button Content="🗑️ Thùng rác"
+                            Command="{Binding ShowTrashCommand}"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,0,0,8"
+                            Padding="12,10">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentContent}" Value="Trash">
+                                        <Setter Property="Background" Value="{StaticResource SelectedColor}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
 
                 <!-- Empty State (Sidebar chỉ hiển thị menu, không hiển thị content) -->
