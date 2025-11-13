@@ -16,6 +16,8 @@ namespace NotionNote.Services
 
         public Page CreatePage(Page page)
         {
+            // Ensure new pages are active
+            page.IsActive = true;
             _context.Pages.Add(page);
             _context.SaveChanges();
             return page;
@@ -26,14 +28,14 @@ namespace NotionNote.Services
             return _context.Pages
                 .Include(p => p.Workspace)
                 .Include(p => p.Tags)
-                .FirstOrDefault(p => p.PageId == pageId);
+                .FirstOrDefault(p => p.PageId == pageId && p.IsActive);
         }
 
         public IEnumerable<Page> GetPagesByWorkspaceId(int workspaceId)
         {
             return _context.Pages
                 .Include(p => p.Tags)
-                .Where(p => p.WorkspaceId == workspaceId)
+                .Where(p => p.WorkspaceId == workspaceId && p.IsActive)
                 .OrderByDescending(p => p.IsPinned)  // Pinned lên đầu
                 .ThenByDescending(p => p.UpdatedAt ?? p.CreatedAt)
                 .ToList();
@@ -63,8 +65,9 @@ namespace NotionNote.Services
 
             return _context.Pages
                 .Include(p => p.Tags)
-                .Where(p => p.Title.Contains(searchTerm) || 
-                           (p.Content != null && p.Content.Contains(searchTerm)))
+                .Where(p => p.IsActive && 
+                           (p.Title.Contains(searchTerm) || 
+                           (p.Content != null && p.Content.Contains(searchTerm))))
                 .OrderByDescending(p => p.UpdatedAt ?? p.CreatedAt)
                 .ToList();
         }

@@ -37,7 +37,7 @@ namespace NotionNote.Services
         public Tag? GetTagById(int tagId)
         {
             return _context.Tags
-                .Include(t => t.Pages)
+                .Include(t => t.Pages.Where(p => p.IsActive))
                 .FirstOrDefault(t => t.TagId == tagId);
         }
 
@@ -50,7 +50,7 @@ namespace NotionNote.Services
         public IEnumerable<Tag> GetAllTags()
         {
             return _context.Tags
-                .Include(t => t.Pages)
+                .Include(t => t.Pages.Where(p => p.IsActive))
                 .OrderBy(t => t.Name)
                 .ToList();
         }
@@ -65,12 +65,12 @@ namespace NotionNote.Services
         public void DeleteTag(int tagId)
         {
             var tag = _context.Tags
-                .Include(t => t.Pages)
+                .Include(t => t.Pages.Where(p => p.IsActive))
                 .FirstOrDefault(t => t.TagId == tagId);
             
             if (tag != null)
             {
-                // Remove all associations with pages
+                // Remove all associations with active pages only
                 tag.Pages.Clear();
                 _context.Tags.Remove(tag);
                 _context.SaveChanges();
@@ -79,9 +79,10 @@ namespace NotionNote.Services
 
         public void AddTagToPage(int pageId, int tagId)
         {
+            // Only allow adding tags to active pages
             var page = _context.Pages
                 .Include(p => p.Tags)
-                .FirstOrDefault(p => p.PageId == pageId);
+                .FirstOrDefault(p => p.PageId == pageId && p.IsActive);
             
             var tag = _context.Tags.Find(tagId);
             
@@ -94,9 +95,10 @@ namespace NotionNote.Services
 
         public void RemoveTagFromPage(int pageId, int tagId)
         {
+            // Only allow removing tags from active pages
             var page = _context.Pages
                 .Include(p => p.Tags)
-                .FirstOrDefault(p => p.PageId == pageId);
+                .FirstOrDefault(p => p.PageId == pageId && p.IsActive);
             
             var tag = _context.Tags.Find(tagId);
             
@@ -109,9 +111,10 @@ namespace NotionNote.Services
 
         public IEnumerable<Tag> GetTagsByPageId(int pageId)
         {
+            // Only get tags for active pages
             var page = _context.Pages
                 .Include(p => p.Tags)
-                .FirstOrDefault(p => p.PageId == pageId);
+                .FirstOrDefault(p => p.PageId == pageId && p.IsActive);
             
             return page?.Tags ?? new List<Tag>();
         }
@@ -119,7 +122,7 @@ namespace NotionNote.Services
         public IEnumerable<Page> GetPagesByTagId(int tagId)
         {
             var tag = _context.Tags
-                .Include(t => t.Pages)
+                .Include(t => t.Pages.Where(p => p.IsActive))
                 .FirstOrDefault(t => t.TagId == tagId);
             
             return tag?.Pages ?? new List<Page>();

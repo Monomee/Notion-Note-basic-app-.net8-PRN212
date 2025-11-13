@@ -24,8 +24,9 @@ namespace NotionNote.Services
             }
 
             // Simple auth (no hashing for demo)
+            // Only allow login for active users
             var user = _context.Users
-                .FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
+                .FirstOrDefault(u => u.Username == username && u.PasswordHash == password && u.IsActive);
 
             return user;
         }
@@ -46,7 +47,8 @@ namespace NotionNote.Services
             {
                 Username = username,
                 PasswordHash = password, // Simple, no hashing
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                IsActive = true // New users are active by default
             };
 
             _context.Users.Add(newUser);
@@ -87,7 +89,9 @@ namespace NotionNote.Services
 
         public User? GetUserById(int userId)
         {
-            return _context.Users.Find(userId);
+            var user = _context.Users.Find(userId);
+            // Only return active users
+            return user != null && user.IsActive ? user : null;
         }
     }
 }

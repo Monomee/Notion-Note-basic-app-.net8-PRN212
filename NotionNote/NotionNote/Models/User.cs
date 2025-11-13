@@ -13,5 +13,7 @@ public partial class User
 
     public DateTime? CreatedAt { get; set; }
 
+    public bool IsActive { get; set; }
+
     public virtual ICollection<Workspace> Workspaces { get; set; } = new List<Workspace>();
 }

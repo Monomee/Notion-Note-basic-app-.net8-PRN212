@@ -16,6 +16,8 @@ namespace NotionNote.Services
 
         public Workspace CreateWorkspace(Workspace workspace)
         {
+            // Ensure new workspaces are active
+            workspace.IsActive = true;
             _context.Workspaces.Add(workspace);
             _context.SaveChanges();
             return workspace;
@@ -23,17 +25,18 @@ namespace NotionNote.Services
 
         public Workspace? GetWorkspaceById(int workspaceId)
         {
-            return _context.Workspaces
-                .Include(w => w.Pages)
+            var workspace = _context.Workspaces
+                .Include(w => w.Pages.Where(p => p.IsActive))
                 .Include(w => w.User)
-                .FirstOrDefault(w => w.WorkspaceId == workspaceId);
+                .FirstOrDefault(w => w.WorkspaceId == workspaceId && w.IsActive);
+            return workspace;
         }
 
         public IEnumerable<Workspace> GetWorkspacesByUserId(int userId)
         {
             return _context.Workspaces
-                .Include(w => w.Pages)
-                .Where(w => w.UserId == userId)
+                .Include(w => w.Pages.Where(p => p.IsActive))
+                .Where(w => w.UserId == userId && w.IsActive)
                 .OrderByDescending(w => w.CreatedAt)
                 .ToList();
         }
@@ -61,8 +64,8 @@ namespace NotionNote.Services
                 return new List<Workspace>();
 
             return _context.Workspaces
-                .Include(w => w.Pages)
-                .Where(w => w.Name.Contains(searchTerm))
+                .Include(w => w.Pages.Where(p => p.IsActive))
+                .Where(w => w.IsActive && w.Name.Contains(searchTerm))
                 .OrderByDescending(w => w.CreatedAt)
                 .ToList();
         }
