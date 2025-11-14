@@ -79,7 +79,7 @@
 
                 <!-- Menu Items -->
                 <StackPanel Grid.Row="1" Margin="8,8,8,0">
-                    <Button Content="🏠 Trang chủ"
+                    <Button Content="🏠 Home"
                             Command="{Binding ShowMainCommand}"
                             HorizontalAlignment="Stretch"
                             Margin="0,0,0,8"
@@ -111,7 +111,7 @@
                         </Button.Style>
                     </Button>
 
-                    <Button Content="👤 Chỉnh sửa thông tin"
+                    <Button Content="👤 Edit Profile"
                             Command="{Binding ShowUserProfileCommand}"
                             HorizontalAlignment="Stretch"
                             Margin="0,0,0,8"
@@ -127,7 +127,7 @@
                         </Button.Style>
                     </Button>
 
-                    <Button Content="🏷️ Quản lý Tags"
+                    <Button Content="🏷️ Manage Tags"
                             Command="{Binding ShowTagManagementCommand}"
                             HorizontalAlignment="Stretch"
                             Margin="0,0,0,8"
@@ -143,7 +143,7 @@
                         </Button.Style>
                     </Button>
 
-                    <Button Content="🗑️ Thùng rác"
+                    <Button Content="🗑️ Trash"
                             Command="{Binding ShowTrashCommand}"
                             HorizontalAlignment="Stretch"
                             Margin="0,0,0,8"
@@ -169,7 +169,7 @@
                         BorderBrush="{StaticResource BorderColor}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="📋" FontSize="48" HorizontalAlignment="Center" Opacity="0.3"/>
-                        <TextBlock Text="Chọn một mục từ menu để xem" 
+                        <TextBlock Text="Select an item from the menu to view" 
                                   Style="{StaticResource BodyTextStyle}" 
                                   HorizontalAlignment="Center" 
                                   Margin="0,8,0,0"

@@ -24,21 +24,21 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="🗑️ Thùng rác" 
+                    <TextBlock Text="🗑️ Trash" 
                               Style="{StaticResource HeaderTextStyle}"
                               Margin="0,0,0,4"/>
-                    <TextBlock Text="Các mục đã xóa sẽ được lưu ở đây. Bạn có thể khôi phục hoặc xóa vĩnh viễn."
+                    <TextBlock Text="Deleted items will be stored here. You can restore or permanently delete them."
                               Style="{StaticResource BodyTextStyle}"
                               Opacity="0.7"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Button Content="🔄 Làm mới"
+                    <Button Content="🔄 Refresh"
                             Command="{Binding RefreshCommand}"
                             Style="{StaticResource SecondaryButtonStyle}"
                             Margin="0,0,8,0"
                             Padding="12,8"/>
-                    <Button Content="↩️ Khôi phục"
+                    <Button Content="↩️ Restore"
                             Command="{Binding RestoreCommand}"
                             Margin="0,0,8,0"
                             Padding="12,8">
@@ -53,7 +53,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Content="🗑️ Xóa vĩnh viễn"
+                    <Button Content="🗑️ Permanently Delete"
                             Command="{Binding HardDeleteCommand}"
                             Style="{StaticResource AnimatedButtonStyle}"
                             Padding="12,8"
@@ -133,7 +133,7 @@
                                                   Margin="0,0,8,0"/>
                                         <TextBlock>
                                             <TextBlock.Text>
-                                                <MultiBinding StringFormat="Đã xóa: {0:dd/MM/yyyy HH:mm}">
+                                                <MultiBinding StringFormat="Deleted: {0:dd/MM/yyyy HH:mm}">
                                                     <Binding Path="DeletedAt"/>
                                                 </MultiBinding>
                                             </TextBlock.Text>
@@ -143,7 +143,7 @@
                                                   Margin="8,0,0,0"
                                                   FontStyle="Italic">
                                             <TextBlock.Text>
-                                                <MultiBinding StringFormat=" (Không thể khôi phục - Workspace {0} đã bị xóa)">
+                                                <MultiBinding StringFormat=" (Cannot restore - Workspace {0} has been deleted)">
                                                     <Binding Path="WorkspaceName"/>
                                                 </MultiBinding>
                                             </TextBlock.Text>
@@ -183,11 +183,11 @@
             </Border.Style>
             <StackPanel>
                 <TextBlock Text="🗑️" FontSize="64" HorizontalAlignment="Center" Opacity="0.3"/>
-                <TextBlock Text="Thùng rác trống" 
+                <TextBlock Text="Trash is empty" 
                           Style="{StaticResource HeaderTextStyle}"
                           HorizontalAlignment="Center"
                           Margin="0,16,0,8"/>
-                <TextBlock Text="Các mục đã xóa sẽ xuất hiện ở đây" 
+                <TextBlock Text="Deleted items will appear here" 
                           Style="{StaticResource BodyTextStyle}"
                           HorizontalAlignment="Center"
                           Opacity="0.6"/>

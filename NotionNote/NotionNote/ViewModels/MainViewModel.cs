@@ -226,8 +226,8 @@ namespace NotionNote.ViewModels
         private void Logout()
         {
             var result = MessageBox.Show(
-                "Bạn có chắc chắn muốn đăng xuất không?",
-                "Xác nhận đăng xuất",
+                "Are you sure you want to log out?",
+                "Confirm Logout",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 

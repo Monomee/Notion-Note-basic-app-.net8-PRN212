@@ -112,13 +112,13 @@ namespace NotionNote.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(NewTagName))
                 {
-                    ErrorMessage = "Tên tag không được để trống";
+                    ErrorMessage = "Tag name cannot be empty";
                     return;
                 }
 
                 if (NewTagName.Length > 50)
                 {
-                    ErrorMessage = "Tên tag không được quá 50 ký tự";
+                    ErrorMessage = "Tag name cannot exceed 50 characters";
                     return;
                 }
 
@@ -129,14 +129,14 @@ namespace NotionNote.ViewModels
                 NewTagName = string.Empty;
 
                 MessageBox.Show(
-                    $"Tag '{tag.Name}' đã được tạo thành công!",
-                    "Thành công",
+                    $"Tag '{tag.Name}' has been created successfully!",
+                    "Success",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Lỗi: {ex.Message}";
+                ErrorMessage = $"Error: {ex.Message}";
             }
         }
 
@@ -155,8 +155,8 @@ namespace NotionNote.ViewModels
             try
             {
                 var result = MessageBox.Show(
-                    $"Bạn có chắc chắn muốn xóa tag '{SelectedTag.Name}'?\n\nLưu ý: Tag sẽ bị gỡ khỏi tất cả các page đã gắn tag này.",
-                    "Xác nhận xóa tag",
+                    $"Are you sure you want to delete tag '{SelectedTag.Name}'?\n\nNote: The tag will be removed from all pages that have this tag attached.",
+                    "Confirm Tag Deletion",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning);
 
@@ -168,15 +168,15 @@ namespace NotionNote.ViewModels
                     SelectedTag = null;
 
                     MessageBox.Show(
-                        "Tag đã được xóa thành công!",
-                        "Thành công",
+                        "Tag has been deleted successfully!",
+                        "Success",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Lỗi: {ex.Message}";
+                ErrorMessage = $"Error: {ex.Message}";
             }
         }
 
@@ -212,7 +212,7 @@ namespace NotionNote.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Không thể tải tags: {ex.Message}";
+                ErrorMessage = $"Unable to load tags: {ex.Message}";
             }
         }
 

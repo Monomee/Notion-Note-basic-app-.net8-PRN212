@@ -56,7 +56,7 @@
                         </RadioButton>
                     </StackPanel>
                     
-                    <TextBlock Text="Chọn theme sáng hoặc tối cho ứng dụng" 
+                    <TextBlock Text="Choose a light or dark theme for the application" 
                               Style="{StaticResource BodyTextStyle}"
                               Opacity="0.7"
                               TextWrapping="Wrap"/>

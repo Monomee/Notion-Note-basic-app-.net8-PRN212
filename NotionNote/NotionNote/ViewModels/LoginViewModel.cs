@@ -169,8 +169,8 @@ namespace NotionNote.ViewModels
                 }
 
                 var result = MessageBox.Show(
-                    $"Bạn có chắc chắn muốn tạo tài khoản với tên đăng nhập '{Username}' không?",
-                    "Xác nhận tạo tài khoản",
+                    $"Are you sure you want to create an account with username '{Username}'?",
+                    "Confirm Account Creation",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
 
@@ -184,8 +184,8 @@ namespace NotionNote.ViewModels
                 if (user != null)
                 {
                     MessageBox.Show(
-                        $"Tài khoản '{user.Username}' đã được tạo thành công!",
-                        "Tạo tài khoản thành công",
+                        $"Account '{user.Username}' has been created successfully!",
+                        "Account Created Successfully",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
 

@@ -131,25 +131,25 @@ namespace NotionNote.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(OldPassword))
                 {
-                    ErrorMessage = "Vui lòng nhập mật khẩu cũ";
+                    ErrorMessage = "Please enter your old password";
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(NewPassword))
                 {
-                    ErrorMessage = "Vui lòng nhập mật khẩu mới";
+                    ErrorMessage = "Please enter your new password";
                     return;
                 }
 
                 if (NewPassword.Length < 3)
                 {
-                    ErrorMessage = "Mật khẩu mới phải có ít nhất 3 ký tự";
+                    ErrorMessage = "New password must be at least 3 characters";
                     return;
                 }
 
                 if (NewPassword != ConfirmPassword)
                 {
-                    ErrorMessage = "Mật khẩu mới và xác nhận mật khẩu không khớp";
+                    ErrorMessage = "New password and confirm password do not match";
                     return;
                 }
 
@@ -157,25 +157,25 @@ namespace NotionNote.ViewModels
 
                 if (success)
                 {
-                    SuccessMessage = "Đổi mật khẩu thành công!";
+                    SuccessMessage = "Password changed successfully!";
                     OldPassword = string.Empty;
                     NewPassword = string.Empty;
                     ConfirmPassword = string.Empty;
 
                     MessageBox.Show(
-                        "Đổi mật khẩu thành công!",
-                        "Thành công",
+                        "Password changed successfully!",
+                        "Success",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
                 }
                 else
                 {
-                    ErrorMessage = "Mật khẩu cũ không đúng";
+                    ErrorMessage = "Old password is incorrect";
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Lỗi: {ex.Message}";
+                ErrorMessage = $"Error: {ex.Message}";
             }
         }
 
@@ -202,7 +202,7 @@ namespace NotionNote.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Không thể tải thông tin người dùng: {ex.Message}";
+                ErrorMessage = $"Unable to load user information: {ex.Message}";
             }
         }
 

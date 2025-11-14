@@ -17,7 +17,7 @@
 
         <!-- Header -->
         <TextBlock Grid.Row="0"
-                  Text="Quản lý Tags" 
+                  Text="Manage Tags" 
                   Style="{StaticResource HeaderTextStyle}"
                   Margin="0,0,0,16"/>
 
@@ -47,7 +47,7 @@
                                                 <ScrollViewer x:Name="PART_ContentHost" 
                                                         Margin="{TemplateBinding Padding}"
                                                         VerticalAlignment="Center"/>
-                                                <TextBlock Text="Tìm kiếm tags..." 
+                                                <TextBlock Text="Search tags..." 
                                                       Foreground="{StaticResource TextSecondaryColor}"
                                                       Margin="{TemplateBinding Padding}"
                                                       VerticalAlignment="Center"
@@ -76,7 +76,7 @@
 
         <!-- Add Tag Section -->
         <StackPanel Grid.Row="2" Margin="0,0,0,12">
-            <TextBlock Text="Thêm tag mới:" 
+            <TextBlock Text="Add new tag:" 
                       Style="{StaticResource SubHeaderTextStyle}"
                       Margin="0,0,0,4"/>
             <Grid>
@@ -165,7 +165,7 @@
                     </Style>
                 </StackPanel.Style>
                 <TextBlock Text="🏷️" FontSize="48" HorizontalAlignment="Center" Opacity="0.3"/>
-                <TextBlock Text="Chưa có tags" 
+                <TextBlock Text="No tags yet" 
                           Style="{StaticResource SubHeaderTextStyle}" 
                           HorizontalAlignment="Center" 
                           Opacity="0.6"/>
@@ -174,12 +174,12 @@
 
         <!-- Action Buttons -->
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Stretch">
-            <Button Content="🗑️ Xóa"
+            <Button Content="🗑️ Delete"
                     Command="{Binding DeleteTagCommand}"
                     Style="{StaticResource AnimatedButtonStyle}"
                     Margin="0,0,8,0"
                     HorizontalAlignment="Stretch"/>
-            <Button Content="🔄 Làm mới"
+            <Button Content="🔄 Refresh"
                     Command="{Binding RefreshCommand}"
                     Style="{StaticResource SecondaryButtonStyle}"
                     HorizontalAlignment="Stretch"/>
