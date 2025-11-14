@@ -17,7 +17,6 @@ namespace NotionNote.ViewModels
         private string _searchText = string.Empty;
         private string _newTagName = string.Empty;
         private string _errorMessage = string.Empty;
-        private bool _isBusy = false;
         private TagItemViewModel? _selectedTag;
 
         public TagManagementViewModel(ITagService tagService)
@@ -80,19 +79,6 @@ namespace NotionNote.ViewModels
             }
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public TagItemViewModel? SelectedTag
         {
             get => _selectedTag;
@@ -120,7 +106,6 @@ namespace NotionNote.ViewModels
 
         private void AddTag()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
 
             try
@@ -153,15 +138,11 @@ namespace NotionNote.ViewModels
             {
                 ErrorMessage = $"Lỗi: {ex.Message}";
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         private bool CanAddTag()
         {
-            return !string.IsNullOrWhiteSpace(NewTagName) && !IsBusy;
+            return !string.IsNullOrWhiteSpace(NewTagName);
         }
 
         private void DeleteTag()
@@ -169,7 +150,6 @@ namespace NotionNote.ViewModels
             if (SelectedTag == null)
                 return;
 
-            IsBusy = true;
             ErrorMessage = string.Empty;
 
             try
@@ -198,15 +178,11 @@ namespace NotionNote.ViewModels
             {
                 ErrorMessage = $"Lỗi: {ex.Message}";
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         private bool CanDeleteTag()
         {
-            return SelectedTag != null && !IsBusy;
+            return SelectedTag != null;
         }
 
         private void RefreshTags()
@@ -220,7 +196,6 @@ namespace NotionNote.ViewModels
 
         private void LoadTags()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
 
             try
@@ -238,10 +213,6 @@ namespace NotionNote.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Không thể tải tags: {ex.Message}";
-            }
-            finally
-            {
-                IsBusy = false;
             }
         }
 

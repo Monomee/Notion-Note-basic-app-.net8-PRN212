@@ -97,13 +97,11 @@
                     Style="{StaticResource AnimatedButtonStyle}"
                     Command="{Binding PinCommand}"
                     ToolTip="Pin or unpin this page to keep it at the top"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
                     Margin="0,0,8,0"/>
                 <Button Content="💾 Save" 
                     Style="{StaticResource AnimatedButtonStyle}"
                     Command="{Binding SaveCommand}"
                     ToolTip="Save changes to this page"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
                     Margin="0,0,8,0"/>
             </StackPanel>
 

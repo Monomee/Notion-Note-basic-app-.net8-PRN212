@@ -18,7 +18,6 @@ namespace NotionNote.ViewModels
         private bool _isDirty = false;
         private DateTime? _lastSavedAt;
         private Page? _currentPage;
-        private bool _isBusy;
         private string _newTagInput = string.Empty;
         private ObservableCollection<TagItemViewModel> _selectedTags = new();
         private ObservableCollection<TagItemViewModel> _availableTags = new();
@@ -128,19 +127,6 @@ namespace NotionNote.ViewModels
             }
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            private set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public ObservableCollection<TagItemViewModel> SelectedTags
         {
             get => _selectedTags;
@@ -211,21 +197,13 @@ namespace NotionNote.ViewModels
         {
             if (CurrentPage == null) return;
 
-            IsBusy = true;
-            try
-            {
-                CurrentPage.IsPinned = !CurrentPage.IsPinned;
-                CurrentPage.UpdatedAt = DateTime.Now;
-                _pageService.UpdatePage(CurrentPage);
+            CurrentPage.IsPinned = !CurrentPage.IsPinned;
+            CurrentPage.UpdatedAt = DateTime.Now;
+            _pageService.UpdatePage(CurrentPage);
 
-                OnPropertyChanged(nameof(CurrentPage));
+            OnPropertyChanged(nameof(CurrentPage));
 
-                PageUpdated?.Invoke(this, CurrentPage);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            PageUpdated?.Invoke(this, CurrentPage);
         }
 
         private bool CanPinPage()
@@ -236,16 +214,8 @@ namespace NotionNote.ViewModels
         private void DeletePage()
         {
             if (CurrentPage == null) return;
-            IsBusy = true;
-            try
-            {
-                _pageService.DeletePage(CurrentPage.PageId);
-                ClearPage();
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            _pageService.DeletePage(CurrentPage.PageId);
+            ClearPage();
         }
 
         private bool CanDeletePage()
@@ -255,53 +225,45 @@ namespace NotionNote.ViewModels
 
         private void SavePage()
         {
-            IsBusy = true;
-            try
+            if (CurrentPage != null)
             {
-                if (CurrentPage != null)
-                {
-                    CurrentPage.Title = Title;
-                    CurrentPage.Content = Content;
-                    CurrentPage.UpdatedAt = DateTime.Now;
-                    
-                    UpdatePageTags();
-                    
-                    _pageService.UpdatePage(CurrentPage);
-                    LastSavedAt = DateTime.Now;
-                    IsDirty = false;
-                    
-                    PageUpdated?.Invoke(this, CurrentPage);
-                }
-                else
-                {
-                    if (!CurrentWorkspaceId.HasValue)
-                    {
-                        return;
-                    }
-
-                    var newPage = new Page
-                    {
-                        Title = string.IsNullOrWhiteSpace(Title) ? "Untitled Page" : Title,
-                        Content = Content,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
-                        IsPinned = false,
-                        WorkspaceId = CurrentWorkspaceId.Value
-                    };
-                    CurrentPage = _pageService.CreatePage(newPage);
-                    
-                    UpdatePageTags();
-                    _pageService.UpdatePage(CurrentPage);
-                    
-                    LastSavedAt = DateTime.Now;
-                    IsDirty = false;
-                    
-                    PageUpdated?.Invoke(this, CurrentPage);
-                }
+                CurrentPage.Title = Title;
+                CurrentPage.Content = Content;
+                CurrentPage.UpdatedAt = DateTime.Now;
+                
+                UpdatePageTags();
+                
+                _pageService.UpdatePage(CurrentPage);
+                LastSavedAt = DateTime.Now;
+                IsDirty = false;
+                
+                PageUpdated?.Invoke(this, CurrentPage);
             }
-            finally
+            else
             {
-                IsBusy = false;
+                if (!CurrentWorkspaceId.HasValue)
+                {
+                    return;
+                }
+
+                var newPage = new Page
+                {
+                    Title = string.IsNullOrWhiteSpace(Title) ? "Untitled Page" : Title,
+                    Content = Content,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    IsPinned = false,
+                    WorkspaceId = CurrentWorkspaceId.Value
+                };
+                CurrentPage = _pageService.CreatePage(newPage);
+                
+                UpdatePageTags();
+                _pageService.UpdatePage(CurrentPage);
+                
+                LastSavedAt = DateTime.Now;
+                IsDirty = false;
+                
+                PageUpdated?.Invoke(this, CurrentPage);
             }
         }
 
@@ -409,7 +371,7 @@ namespace NotionNote.ViewModels
 
         private bool CanAddTag()
         {
-            return !string.IsNullOrWhiteSpace(NewTagInput) && !IsBusy;
+            return !string.IsNullOrWhiteSpace(NewTagInput);
         }
 
         private void RemoveTag(TagItemViewModel? tagItem)

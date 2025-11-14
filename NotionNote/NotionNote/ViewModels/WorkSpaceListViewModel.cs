@@ -82,7 +82,6 @@ namespace NotionNote.ViewModels
         private string _searchText = string.Empty;
         private WorkspaceItemViewModel? _selected;
         private int _currentUserId = 1;
-        private bool _isBusy;
 
         public WorkSpaceListViewModel(IWorkspaceService workspaceService)
         {
@@ -171,19 +170,6 @@ namespace NotionNote.ViewModels
             get => _filteredWorkspaces.Count == 0;
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            private set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -200,33 +186,25 @@ namespace NotionNote.ViewModels
 
         private void AddWorkspace()
         {
-            IsBusy = true;
-            try
+            var newWorkspace = new Workspace
             {
-                var newWorkspace = new Workspace
-                {
-                    Name = "New Workspace",
-                    CreatedAt = DateTime.Now,
-                    UserId = CurrentUserId
-                };
+                Name = "New Workspace",
+                CreatedAt = DateTime.Now,
+                UserId = CurrentUserId
+            };
 
-                var createdWorkspace = _workspaceService.CreateWorkspace(newWorkspace);
-                var workspaceItem = new WorkspaceItemViewModel(createdWorkspace, _workspaceService);
-                
-                _workspaces.Insert(0, workspaceItem);
-                UpdateFilteredWorkspaces();
-                Selected = workspaceItem;
-                workspaceItem.IsEditing = true;
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            var createdWorkspace = _workspaceService.CreateWorkspace(newWorkspace);
+            var workspaceItem = new WorkspaceItemViewModel(createdWorkspace, _workspaceService);
+            
+            _workspaces.Insert(0, workspaceItem);
+            UpdateFilteredWorkspaces();
+            Selected = workspaceItem;
+            workspaceItem.IsEditing = true;
         }
 
         private bool CanAddWorkspace()
         {
-            return !IsBusy;
+            return true;
         }
 
         private void DeleteWorkspace()
@@ -244,44 +222,28 @@ namespace NotionNote.ViewModels
                 return;
             }
 
-            IsBusy = true;
-            try
-            {
-                _workspaceService.DeleteWorkspace(Selected.WorkspaceId);
-                _workspaces.Remove(Selected);
-                UpdateFilteredWorkspaces();
-                Selected = null;
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            _workspaceService.DeleteWorkspace(Selected.WorkspaceId);
+            _workspaces.Remove(Selected);
+            UpdateFilteredWorkspaces();
+            Selected = null;
         }
 
         private bool CanDeleteWorkspace()
         {
-            return Selected != null && !IsBusy;
+            return Selected != null;
         }
 
         private void RefreshWorkspaces()
         {
-            IsBusy = true;
-            try
+            var workspaces = _workspaceService.GetWorkspacesByUserId(CurrentUserId);
+            _workspaces.Clear();
+            
+            foreach (var workspace in workspaces)
             {
-                var workspaces = _workspaceService.GetWorkspacesByUserId(CurrentUserId);
-                _workspaces.Clear();
-                
-                foreach (var workspace in workspaces)
-                {
-                    _workspaces.Add(new WorkspaceItemViewModel(workspace, _workspaceService));
-                }
-                
-                UpdateFilteredWorkspaces();
+                _workspaces.Add(new WorkspaceItemViewModel(workspace, _workspaceService));
             }
-            finally
-            {
-                IsBusy = false;
-            }
+            
+            UpdateFilteredWorkspaces();
         }
         private void RenameWorkspace()
         {
@@ -293,7 +255,7 @@ namespace NotionNote.ViewModels
 
         private bool CanRenameWorkspace()
         {
-            return Selected != null && !IsBusy;
+            return Selected != null;
         }
 
         #endregion

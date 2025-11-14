@@ -85,7 +85,6 @@ namespace NotionNote.ViewModels
         private string _searchText = string.Empty;
         private PageItemViewModel? _selected;
         private int? _currentWorkspaceId;
-        private bool _isBusy;
 
         public PageListViewModel(IPageService pageService)
         {
@@ -175,19 +174,6 @@ namespace NotionNote.ViewModels
             get => _filteredPages.Count == 0;
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            private set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -204,37 +190,29 @@ namespace NotionNote.ViewModels
         {
             if (CurrentWorkspaceId == null) return;
 
-            IsBusy = true;
-            try
+            var newPage = new Page
             {
-                var newPage = new Page
-                {
-                    Title = "Untitled Page",
-                    Content = string.Empty,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    IsPinned = false,
-                    WorkspaceId = CurrentWorkspaceId.Value
-                };
+                Title = "Untitled Page",
+                Content = string.Empty,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsPinned = false,
+                WorkspaceId = CurrentWorkspaceId.Value
+            };
 
-                var createdPage = _pageService.CreatePage(newPage);
-                var pageItem = new PageItemViewModel(createdPage, _pageService);
-                
-                _pages.Add(pageItem);
-                UpdateFilteredPages();
-                
-                Selected = pageItem;
-                pageItem.IsEditing = true;
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            var createdPage = _pageService.CreatePage(newPage);
+            var pageItem = new PageItemViewModel(createdPage, _pageService);
+            
+            _pages.Add(pageItem);
+            UpdateFilteredPages();
+            
+            Selected = pageItem;
+            pageItem.IsEditing = true;
         }
 
         private bool CanAddPage()
         {
-            return CurrentWorkspaceId != null && !IsBusy;
+            return CurrentWorkspaceId != null;
         }
 
         private void DeletePage()
@@ -252,46 +230,30 @@ namespace NotionNote.ViewModels
                 return;
             }
 
-            IsBusy = true;
-            try
-            {
-                _pageService.DeletePage(Selected.PageId);
-                _pages.Remove(Selected);
-                UpdateFilteredPages();
-                Selected = null;
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            _pageService.DeletePage(Selected.PageId);
+            _pages.Remove(Selected);
+            UpdateFilteredPages();
+            Selected = null;
         }
 
         private bool CanDeletePage()
         {
-            return Selected != null && !IsBusy;
+            return Selected != null;
         }
 
         private void RefreshPages()
         {
             if (CurrentWorkspaceId == null) return;
 
-            IsBusy = true;
-            try
+            var pages = _pageService.GetPagesByWorkspaceId(CurrentWorkspaceId.Value);
+            _pages.Clear();
+            
+            foreach (var page in pages)
             {
-                var pages = _pageService.GetPagesByWorkspaceId(CurrentWorkspaceId.Value);
-                _pages.Clear();
-                
-                foreach (var page in pages)
-                {
-                    _pages.Add(new PageItemViewModel(page, _pageService));
-                }
-                
-                UpdateFilteredPages();
+                _pages.Add(new PageItemViewModel(page, _pageService));
             }
-            finally
-            {
-                IsBusy = false;
-            }
+            
+            UpdateFilteredPages();
         }
 
 

@@ -20,7 +20,6 @@ namespace NotionNote.ViewModels
         private string _password = string.Empty;
         private string _errorMessage = string.Empty;
         private bool _isLoginMode = true;
-        private bool _isBusy = false;
 
         public LoginViewModel(IAuthService authService)
         {
@@ -90,19 +89,6 @@ namespace NotionNote.ViewModels
             }
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public string ModeTitle => IsLoginMode ? "Welcome Back" : "Create Account";
         public string ModeSwitchText => IsLoginMode ? "Don't have an account? Sign up" : "Already have an account? Login";
 
@@ -135,7 +121,6 @@ namespace NotionNote.ViewModels
 
         private void Login()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
 
             try
@@ -157,22 +142,16 @@ namespace NotionNote.ViewModels
             {
                 ErrorMessage = $"Login failed: {ex.Message}";
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         private bool CanLogin()
         {
             return !string.IsNullOrWhiteSpace(Username) &&
-                   !string.IsNullOrWhiteSpace(Password) &&
-                   !IsBusy;
+                   !string.IsNullOrWhiteSpace(Password);
         }
 
         private void Register()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
 
             try
@@ -221,17 +200,12 @@ namespace NotionNote.ViewModels
             {
                 ErrorMessage = $"Registration failed: {ex.Message}";
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         private bool CanRegister()
         {
             return !string.IsNullOrWhiteSpace(Username) &&
-                   !string.IsNullOrWhiteSpace(Password) &&
-                   !IsBusy;
+                   !string.IsNullOrWhiteSpace(Password);
         }
 
         private void SwitchMode()

@@ -19,7 +19,6 @@ namespace NotionNote.ViewModels
         private string _confirmPassword = string.Empty;
         private string _errorMessage = string.Empty;
         private string _successMessage = string.Empty;
-        private bool _isBusy = false;
 
         public UserProfileViewModel(IAuthService authService, int userId)
         {
@@ -113,19 +112,6 @@ namespace NotionNote.ViewModels
             }
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -138,7 +124,6 @@ namespace NotionNote.ViewModels
 
         private void ChangePassword()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
             SuccessMessage = string.Empty;
 
@@ -192,18 +177,13 @@ namespace NotionNote.ViewModels
             {
                 ErrorMessage = $"Lỗi: {ex.Message}";
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         private bool CanChangePassword()
         {
             return !string.IsNullOrWhiteSpace(OldPassword) &&
                    !string.IsNullOrWhiteSpace(NewPassword) &&
-                   !string.IsNullOrWhiteSpace(ConfirmPassword) &&
-                   !IsBusy;
+                   !string.IsNullOrWhiteSpace(ConfirmPassword);
         }
 
         #endregion
