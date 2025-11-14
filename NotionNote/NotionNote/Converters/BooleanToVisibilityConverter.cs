@@ -18,7 +18,6 @@ namespace NotionNote.Converters
             {
                 return boolValue ? Visibility.Visible : Visibility.Collapsed;
             }
-            // Handle string (for ErrorMessage)
             if (value is string stringValue)
             {
                 return !string.IsNullOrEmpty(stringValue) ? Visibility.Visible : Visibility.Collapsed;
@@ -72,8 +71,6 @@ namespace NotionNote.Converters
         }
     }
 
-
-    //==========================Not use=======================
     public class BooleanToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

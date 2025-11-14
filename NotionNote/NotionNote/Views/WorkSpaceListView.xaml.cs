@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace NotionNote.Views
 {
-    /// <summary>
-    /// Interaction logic for WorkSpaceListView.xaml
-    /// </summary>
     public partial class WorkSpaceListView : UserControl
     {
         public WorkSpaceListView()
@@ -29,7 +26,6 @@ namespace NotionNote.Views
         {
             if (sender is ListBox listBox && listBox.SelectedItem != null)
             {
-                // Delegate to ViewModel if needed
             }
         }
 

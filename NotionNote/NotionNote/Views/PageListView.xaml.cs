@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace NotionNote.Views
 {
-    /// <summary>
-    /// Interaction logic for PageListView.xaml
-    /// </summary>
     public partial class PageListView : UserControl
     {
         public PageListView()
@@ -27,24 +24,19 @@ namespace NotionNote.Views
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // Handle double-click to open page
             if (sender is ListBox listBox && listBox.SelectedItem != null)
             {
-                // This will be handled by the ViewModel through binding
             }
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Selection change is handled automatically by TwoWay binding to Selected property
-            // This handler is here for potential future logic (e.g., logging, additional actions)
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                // End editing mode
                 var dataContext = textBox.DataContext;
                 if (dataContext != null)
                 {
@@ -63,7 +55,6 @@ namespace NotionNote.Views
             {
                 if (e.Key == Key.Enter)
                 {
-                    // End editing mode on Enter
                     var dataContext = textBox.DataContext;
                     if (dataContext != null)
                     {
@@ -77,7 +68,6 @@ namespace NotionNote.Views
                 }
                 else if (e.Key == Key.Escape)
                 {
-                    // Cancel editing on Escape
                     var dataContext = textBox.DataContext;
                     if (dataContext != null)
                     {

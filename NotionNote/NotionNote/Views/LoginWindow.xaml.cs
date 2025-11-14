@@ -18,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace NotionNote.Views
 {
-    /// <summary>
-    /// Interaction logic for LoginWindow.xaml
-    /// </summary>
     public partial class LoginWindow : Window
     {
         private readonly LoginViewModel _viewModel;
@@ -29,14 +26,12 @@ namespace NotionNote.Views
         {
             InitializeComponent();
 
-            // Initialize services
             var context = new NoteHubDbContext();
             var authService = new AuthService(context);
 
             _viewModel = new LoginViewModel(authService);
             DataContext = _viewModel;
 
-            // Subscribe to property changed to close window on success
             _viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
@@ -48,9 +43,7 @@ namespace NotionNote.Views
             {
                 if (_viewModel.AuthenticatedUser != null)
                 {
-                    // CHỈ SET DialogResult - KHÔNG GỌI Close()
                     this.DialogResult = true;
-                    // Close() sẽ tự động được gọi khi set DialogResult = true
                 }
             }
         }

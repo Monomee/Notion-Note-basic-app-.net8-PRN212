@@ -11,7 +11,6 @@ namespace NotionNote.ViewModels
 
         public SettingsViewModel()
         {
-            // Load saved theme preference
             LoadThemePreference();
         }
 
@@ -43,15 +42,11 @@ namespace NotionNote.ViewModels
 
         private void LoadThemePreference()
         {
-            // Try to load from settings (for now, default to light)
-            // In the future, can load from appsettings.json or user settings
             IsDarkMode = false;
         }
 
         private void SaveThemePreference()
         {
-            // Save theme preference (can be saved to appsettings.json or user settings)
-            // For now, just apply the theme
         }
 
         #endregion

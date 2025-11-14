@@ -144,7 +144,6 @@ namespace NotionNote.ViewModels
 
             try
             {
-                // Validate
                 if (string.IsNullOrWhiteSpace(OldPassword))
                 {
                     ErrorMessage = "Vui lòng nhập mật khẩu cũ";
@@ -169,7 +168,6 @@ namespace NotionNote.ViewModels
                     return;
                 }
 
-                // Change password
                 bool success = _authService.ChangePassword(_userId, OldPassword, NewPassword);
 
                 if (success)

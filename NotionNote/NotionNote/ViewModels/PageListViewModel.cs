@@ -59,7 +59,6 @@ namespace NotionNote.ViewModels
                     _isEditing = value;
                     OnPropertyChanged();
                     
-                    // Save changes when editing ends
                     if (!value && _page.Title != _title)
                     {
                         _page.Title = _title;
@@ -92,12 +91,10 @@ namespace NotionNote.ViewModels
         {
             _pageService = pageService ?? throw new ArgumentNullException(nameof(pageService));
             
-            // Initialize commands
             AddPageCommand = new RelayCommand(AddPage, CanAddPage);
             DeletePageCommand = new RelayCommand(DeletePage, CanDeletePage);
             RefreshCommand = new RelayCommand(RefreshPages);
             
-            // Initialize filtered pages
             _filteredPages = new ObservableCollection<PageItemViewModel>(_pages);
         }
 
@@ -167,7 +164,6 @@ namespace NotionNote.ViewModels
                 {
                     _currentWorkspaceId = value;
                     OnPropertyChanged();
-                    // Clear selection when switching workspace
                     Selected = null;
                     RefreshPages();
                 }
@@ -224,11 +220,9 @@ namespace NotionNote.ViewModels
                 var createdPage = _pageService.CreatePage(newPage);
                 var pageItem = new PageItemViewModel(createdPage, _pageService);
                 
-                // Add to collection (will be sorted by UpdateFilteredPages)
                 _pages.Add(pageItem);
                 UpdateFilteredPages();
                 
-                // Select the new page
                 Selected = pageItem;
                 pageItem.IsEditing = true;
             }
@@ -247,7 +241,6 @@ namespace NotionNote.ViewModels
         {
             if (Selected == null) return;
 
-            // THÊM CONFIRM DIALOG
             var result = MessageBox.Show(
                 $"Are you sure you want to delete '{Selected.Title}'?",
                 "Confirm Delete",
@@ -256,7 +249,7 @@ namespace NotionNote.ViewModels
 
             if (result != MessageBoxResult.Yes)
             {
-                return; // User cancelled
+                return;
             }
 
             IsBusy = true;
@@ -318,8 +311,6 @@ namespace NotionNote.ViewModels
                     (p.Content != null && p.Content.ToLower().Contains(searchLower)));
             }
 
-            // Sort: Pinned pages first, then unpinned pages
-            // Within each group, sort by UpdatedAt descending
             filtered = filtered
                 .OrderByDescending(p => p.IsPinned ?? false)
                 .ThenByDescending(p => p.UpdatedAt ?? p.CreatedAt ?? DateTime.MinValue);

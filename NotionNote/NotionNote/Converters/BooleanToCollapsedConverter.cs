@@ -9,7 +9,6 @@ namespace NotionNote.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // This is just a placeholder - the actual text is set via Style triggers
             return value;
         }
 

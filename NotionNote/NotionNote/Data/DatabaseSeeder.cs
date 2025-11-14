@@ -8,16 +8,13 @@ namespace NotionNote.Data
     {
         public static void Seed(NoteHubDbContext context)
         {
-            // Ensure database exists
             context.Database.EnsureCreated();
 
-            // Check if already seeded
             if (context.Users.Any())
             {
-                return; // Database already has data
+                return;
             }
 
-            // Create default demo user
             var user = new User
             {
                 Username = "demo",
@@ -45,7 +42,6 @@ namespace NotionNote.Data
             context.Workspaces.AddRange(personalWorkspace, workWorkspace);
             context.SaveChanges();
 
-            // Create sample pages
             var welcomePage = new Page
             {
                 Title = "Welcome to NotionNote",

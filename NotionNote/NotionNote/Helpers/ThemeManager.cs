@@ -13,7 +13,6 @@ namespace NotionNote.Helpers
             var app = Application.Current;
             if (app == null) return;
 
-            // Update color resources directly
             if (isDarkMode)
             {
                 ApplyDarkTheme(app);
@@ -23,14 +22,12 @@ namespace NotionNote.Helpers
                 ApplyLightTheme(app);
             }
 
-            // Force UI refresh by updating all windows
             foreach (Window window in app.Windows)
             {
                 UpdateWindowTheme(window, isDarkMode);
                 InvalidateVisualTree(window);
             }
 
-            // Notify subscribers
             ThemeChanged?.Invoke(null, isDarkMode);
         }
 
@@ -55,7 +52,6 @@ namespace NotionNote.Helpers
         {
             if (window == null) return;
 
-            // Update window background
             if (window.Resources.Contains("BackgroundColor"))
             {
                 window.Background = (SolidColorBrush)window.Resources["BackgroundColor"];
@@ -106,9 +102,8 @@ namespace NotionNote.Helpers
             {
                 var color = (Color)ColorConverter.ConvertFromString(colorHex);
                 var brush = new SolidColorBrush(color);
-                brush.Freeze(); // Freeze for better performance
+                brush.Freeze();
                 
-                // Update in main resources
                 if (app.Resources.Contains(key))
                 {
                     app.Resources[key] = brush;
@@ -118,7 +113,6 @@ namespace NotionNote.Helpers
                     app.Resources.Add(key, brush);
                 }
 
-                // Also update in merged dictionaries (especially Styles.xaml)
                 foreach (var dict in app.Resources.MergedDictionaries)
                 {
                     if (dict.Contains(key))
@@ -129,7 +123,6 @@ namespace NotionNote.Helpers
             }
             catch
             {
-                // Ignore errors during theme switching
             }
         }
     }

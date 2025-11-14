@@ -12,7 +12,6 @@ namespace NotionNote.Converters
         {
             if (parameter is string param)
             {
-                // Handle SidebarContentType
                 if (value is SidebarContentType contentType)
                 {
                     if (Enum.TryParse<SidebarContentType>(param, out var expectedType))
@@ -20,7 +19,6 @@ namespace NotionNote.Converters
                         return contentType == expectedType ? Visibility.Visible : Visibility.Collapsed;
                     }
                 }
-                // Handle MainViewType
                 else if (value is MainViewType viewType)
                 {
                     if (Enum.TryParse<MainViewType>(param, out var expectedType))

@@ -34,7 +34,6 @@ namespace NotionNote.ViewModels
             _pageService = pageService ?? throw new ArgumentNullException(nameof(pageService));
             _tagService = tagService ?? throw new ArgumentNullException(nameof(tagService));
             
-            // Initialize commands
             PinCommand = new RelayCommand(PinPage, CanPinPage);
             DeleteCommand = new RelayCommand(DeletePage, CanDeletePage);
             SaveCommand = new RelayCommand(SavePage, CanSavePage);
@@ -219,10 +218,8 @@ namespace NotionNote.ViewModels
                 CurrentPage.UpdatedAt = DateTime.Now;
                 _pageService.UpdatePage(CurrentPage);
 
-                // Notify UI
                 OnPropertyChanged(nameof(CurrentPage));
 
-                // THÊM: Fire event để PageListViewModel biết
                 PageUpdated?.Invoke(this, CurrentPage);
             }
             finally
@@ -267,21 +264,18 @@ namespace NotionNote.ViewModels
                     CurrentPage.Content = Content;
                     CurrentPage.UpdatedAt = DateTime.Now;
                     
-                    // Update tags
                     UpdatePageTags();
                     
                     _pageService.UpdatePage(CurrentPage);
                     LastSavedAt = DateTime.Now;
                     IsDirty = false;
                     
-                    // Fire event to notify PageListViewModel to refresh
                     PageUpdated?.Invoke(this, CurrentPage);
                 }
                 else
                 {
                     if (!CurrentWorkspaceId.HasValue)
                     {
-                        // Cannot create page without workspace
                         return;
                     }
 
@@ -296,14 +290,12 @@ namespace NotionNote.ViewModels
                     };
                     CurrentPage = _pageService.CreatePage(newPage);
                     
-                    // Update tags for new page
                     UpdatePageTags();
                     _pageService.UpdatePage(CurrentPage);
                     
                     LastSavedAt = DateTime.Now;
                     IsDirty = false;
                     
-                    // Fire event to notify PageListViewModel to refresh
                     PageUpdated?.Invoke(this, CurrentPage);
                 }
             }
@@ -330,7 +322,6 @@ namespace NotionNote.ViewModels
                 Content = CurrentPage.Content ?? string.Empty;
                 LastSavedAt = CurrentPage.UpdatedAt ?? CurrentPage.CreatedAt;
                 
-                // Load tags
                 LoadPageTags();
                 
                 IsDirty = false;
@@ -347,7 +338,6 @@ namespace NotionNote.ViewModels
             
             if (CurrentPage != null)
             {
-                // Reload page with tags
                 var pageWithTags = _pageService.GetPageById(CurrentPage.PageId);
                 if (pageWithTags != null && pageWithTags.Tags != null)
                 {
@@ -358,7 +348,6 @@ namespace NotionNote.ViewModels
                 }
             }
             
-            // Refresh available tags
             LoadAvailableTags();
         }
 
@@ -366,17 +355,13 @@ namespace NotionNote.ViewModels
         {
             if (CurrentPage == null) return;
 
-            // Reload page with tags to get current state
             var pageWithTags = _pageService.GetPageById(CurrentPage.PageId);
             if (pageWithTags == null) return;
 
-            // Get current tag IDs
             var currentTagIds = pageWithTags.Tags?.Select(t => t.TagId).ToHashSet() ?? new HashSet<int>();
             
-            // Get selected tag IDs
             var selectedTagIds = SelectedTags.Select(t => t.TagId).ToHashSet();
 
-            // Remove tags that are no longer selected
             foreach (var tagId in currentTagIds)
             {
                 if (!selectedTagIds.Contains(tagId))
@@ -385,7 +370,6 @@ namespace NotionNote.ViewModels
                 }
             }
 
-            // Add new tags
             foreach (var tagItem in SelectedTags)
             {
                 if (!currentTagIds.Contains(tagItem.TagId))
@@ -394,7 +378,6 @@ namespace NotionNote.ViewModels
                 }
             }
 
-            // Reload page to get updated tags
             CurrentPage = _pageService.GetPageById(CurrentPage.PageId);
         }
 
@@ -405,26 +388,22 @@ namespace NotionNote.ViewModels
 
             var tagName = NewTagInput.Trim();
             
-            // Check if tag already selected
             if (SelectedTags.Any(t => t.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase)))
             {
                 NewTagInput = string.Empty;
                 return;
             }
 
-            // Find or create tag
             var tag = _tagService.GetTagByName(tagName);
             if (tag == null)
             {
                 tag = _tagService.CreateTag(tagName);
             }
 
-            // Add to selected tags
             SelectedTags.Add(new TagItemViewModel(tag));
             NewTagInput = string.Empty;
             SetDirty();
             
-            // Refresh available tags
             LoadAvailableTags();
         }
 
@@ -440,7 +419,6 @@ namespace NotionNote.ViewModels
             SelectedTags.Remove(tagItem);
             SetDirty();
             
-            // Refresh available tags
             LoadAvailableTags();
         }
 
@@ -451,7 +429,6 @@ namespace NotionNote.ViewModels
             
             foreach (var tag in allTags)
             {
-                // Only add tags that are not already selected
                 if (!SelectedTags.Any(st => st.TagId == tag.TagId))
                 {
                     AvailableTags.Add(new TagItemViewModel(tag));

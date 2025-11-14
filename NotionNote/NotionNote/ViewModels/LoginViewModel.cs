@@ -144,10 +144,9 @@ namespace NotionNote.ViewModels
 
                 if (user != null)
                 {
-                    // Debug
                     System.Diagnostics.Debug.WriteLine($"Login successful: {user.Username} (ID: {user.UserId})");
 
-                    AuthenticatedUser = user;  // ← Bây giờ sẽ fire PropertyChanged
+                    AuthenticatedUser = user;
                 }
                 else
                 {
@@ -190,7 +189,6 @@ namespace NotionNote.ViewModels
                     return;
                 }
 
-                // Show confirmation popup before creating account
                 var result = MessageBox.Show(
                     $"Bạn có chắc chắn muốn tạo tài khoản với tên đăng nhập '{Username}' không?",
                     "Xác nhận tạo tài khoản",
@@ -206,7 +204,6 @@ namespace NotionNote.ViewModels
 
                 if (user != null)
                 {
-                    // Show success message and auto login
                     MessageBox.Show(
                         $"Tài khoản '{user.Username}' đã được tạo thành công!",
                         "Tạo tài khoản thành công",
@@ -214,7 +211,6 @@ namespace NotionNote.ViewModels
                         MessageBoxImage.Information);
 
                     AuthenticatedUser = user;
-                    // Auto login - window will close
                 }
                 else
                 {

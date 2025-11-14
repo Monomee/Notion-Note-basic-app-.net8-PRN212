@@ -57,7 +57,6 @@ namespace NotionNote.ViewModels
                     _isEditing = value;
                     OnPropertyChanged();
                     
-                    // Save changes when editing ends
                     if (!value && _workspace.Name != _name)
                     {
                         _workspace.Name = _name;
@@ -82,19 +81,17 @@ namespace NotionNote.ViewModels
         private ObservableCollection<WorkspaceItemViewModel> _filteredWorkspaces = new();
         private string _searchText = string.Empty;
         private WorkspaceItemViewModel? _selected;
-        private int _currentUserId = 1; // Default user ID, should be set from authentication
+        private int _currentUserId = 1;
         private bool _isBusy;
 
         public WorkSpaceListViewModel(IWorkspaceService workspaceService)
         {
             _workspaceService = workspaceService ?? throw new ArgumentNullException(nameof(workspaceService));
             
-            // Initialize commands
             AddWorkspaceCommand = new RelayCommand(AddWorkspace, CanAddWorkspace);
             DeleteWorkspaceCommand = new RelayCommand(DeleteWorkspace, CanDeleteWorkspace);
             RefreshCommand = new RelayCommand(RefreshWorkspaces);
             RenameWorkspaceCommand = new RelayCommand(RenameWorkspace, CanRenameWorkspace);
-            // Initialize filtered workspaces
             _filteredWorkspaces = new ObservableCollection<WorkspaceItemViewModel>(_workspaces);
         }
 
