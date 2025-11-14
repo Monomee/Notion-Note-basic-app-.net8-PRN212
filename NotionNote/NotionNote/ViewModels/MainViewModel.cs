@@ -40,11 +40,9 @@ namespace NotionNote.ViewModels
                 EditorVM = new EditorViewModel(_pageService, _tagService);
                 SidebarVM = new SidebarViewModel(_authService, _tagService, _currentUserId);
                 
-                // Set LogoutCommand for Sidebar
                 LogoutCommand = new RelayCommand(Logout);
                 SidebarVM.LogoutCommand = LogoutCommand;
 
-                // Initialize child ViewModels for settings views
                 SettingsVM = new SettingsViewModel();
                 UserProfileVM = new UserProfileViewModel(_authService, _currentUserId);
                 TagManagementVM = new TagManagementViewModel(_tagService);
@@ -105,10 +103,8 @@ namespace NotionNote.ViewModels
 
         private void WorkSpaceListVM_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            // When a workspace is selected, update the PageListViewModel's CurrentWorkspaceId
             if (e.PropertyName == nameof(WorkSpaceListViewModel.Selected))
             {
-                // Clear current page selection when switching workspace
                 EditorVM.CurrentPage = null;
                 
                 if (WorkSpaceListVM.Selected != null)
@@ -126,12 +122,10 @@ namespace NotionNote.ViewModels
 
         private void PageListVM_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            // When a page is selected, update the EditorViewModel's CurrentPage
             if (e.PropertyName == nameof(PageListViewModel.Selected))
             {
                 if (PageListVM.Selected != null)
                 {
-                    // Load the full page data from the service to get all content
                     var fullPage = _pageService.GetPageById(PageListVM.Selected.PageId);
                     EditorVM.CurrentPage = fullPage;
                 }
@@ -140,7 +134,6 @@ namespace NotionNote.ViewModels
                     EditorVM.CurrentPage = null;
                 }
             }
-            // When workspace changes, update EditorViewModel's CurrentWorkspaceId
             else if (e.PropertyName == nameof(PageListViewModel.CurrentWorkspaceId))
             {
                 EditorVM.CurrentWorkspaceId = PageListVM.CurrentWorkspaceId;
@@ -148,35 +141,27 @@ namespace NotionNote.ViewModels
         }
         private void EditorVM_PageUpdated(object? sender, Page updatedPage)
         {
-            // Update page list to reflect changes (pin/unpin, title, etc.)
             if (PageListVM.CurrentWorkspaceId.HasValue)
             {
-                // Find the page item in the current list
                 var existingItem = PageListVM.Pages.FirstOrDefault(p => p.PageId == updatedPage.PageId);
                 
                 if (existingItem != null)
                 {
-                    // Update the underlying page data
                     var page = existingItem.Page;
                     page.Title = updatedPage.Title;
                     page.IsPinned = updatedPage.IsPinned;
                     page.UpdatedAt = updatedPage.UpdatedAt;
                     
-                    // Update the view model properties
                     existingItem.Title = updatedPage.Title;
                     
-                    // Re-sort the filtered pages (pinned pages will move to top)
                     PageListVM.UpdateFilteredPages();
                     
-                    // Re-select the updated page
                     PageListVM.Selected = existingItem;
                 }
                 else
                 {
-                    // If page not found, refresh the entire list
                     PageListVM.RefreshCommand.Execute(null);
                     
-                    // Re-select the updated page
                     var updatedItem = PageListVM.FilteredPages
                         .FirstOrDefault(p => p.PageId == updatedPage.PageId);
                     if (updatedItem != null)
@@ -191,7 +176,6 @@ namespace NotionNote.ViewModels
         {
             if (e.PropertyName == nameof(SidebarViewModel.CurrentContent))
             {
-                // Map SidebarContentType to MainViewType
                 switch (SidebarVM.CurrentContent)
                 {
                     case SidebarContentType.None:
@@ -215,10 +199,8 @@ namespace NotionNote.ViewModels
 
         private void TrashVM_ItemRestored(object? sender, EventArgs e)
         {
-            // Refresh workspaces and pages when an item is restored from trash
             WorkSpaceListVM.RefreshCommand.Execute(null);
             
-            // If a workspace is currently selected, refresh its pages
             if (PageListVM.CurrentWorkspaceId.HasValue)
             {
                 PageListVM.RefreshCommand.Execute(null);
@@ -231,7 +213,6 @@ namespace NotionNote.ViewModels
 
         private void LoadInitialData()
     {
-        // Load workspaces for the logged-in user
         WorkSpaceListVM.CurrentUserId = _currentUserId;
         
         WorkSpaceListVM.RefreshCommand.Execute(null);
@@ -239,22 +220,19 @@ namespace NotionNote.ViewModels
         if (WorkSpaceListVM.FilteredWorkspaces.Count > 0)
         {
             WorkSpaceListVM.Selected = WorkSpaceListVM.FilteredWorkspaces[0];
-            // This will trigger WorkSpaceListVM_PropertyChanged which sets EditorVM.CurrentWorkspaceId
         }
     }
 
         private void Logout()
         {
-            // Show confirmation popup
             var result = MessageBox.Show(
-                "Bạn có chắc chắn muốn đăng xuất không?",
-                "Xác nhận đăng xuất",
+                "Are you sure you want to log out?",
+                "Confirm Logout",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                // Fire event to notify MainWindow to handle logout
                 LogoutRequested?.Invoke(this, EventArgs.Empty);
             }
         }

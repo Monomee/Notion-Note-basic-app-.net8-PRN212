@@ -59,7 +59,6 @@ namespace NotionNote.ViewModels
                     _isEditing = value;
                     OnPropertyChanged();
                     
-                    // Save changes when editing ends
                     if (!value && _page.Title != _title)
                     {
                         _page.Title = _title;
@@ -86,18 +85,15 @@ namespace NotionNote.ViewModels
         private string _searchText = string.Empty;
         private PageItemViewModel? _selected;
         private int? _currentWorkspaceId;
-        private bool _isBusy;
 
         public PageListViewModel(IPageService pageService)
         {
             _pageService = pageService ?? throw new ArgumentNullException(nameof(pageService));
             
-            // Initialize commands
             AddPageCommand = new RelayCommand(AddPage, CanAddPage);
             DeletePageCommand = new RelayCommand(DeletePage, CanDeletePage);
             RefreshCommand = new RelayCommand(RefreshPages);
             
-            // Initialize filtered pages
             _filteredPages = new ObservableCollection<PageItemViewModel>(_pages);
         }
 
@@ -167,7 +163,6 @@ namespace NotionNote.ViewModels
                 {
                     _currentWorkspaceId = value;
                     OnPropertyChanged();
-                    // Clear selection when switching workspace
                     Selected = null;
                     RefreshPages();
                 }
@@ -177,19 +172,6 @@ namespace NotionNote.ViewModels
         public bool IsEmpty
         {
             get => _filteredPages.Count == 0;
-        }
-
-        public bool IsBusy
-        {
-            get => _isBusy;
-            private set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
         }
 
         #endregion
@@ -208,46 +190,35 @@ namespace NotionNote.ViewModels
         {
             if (CurrentWorkspaceId == null) return;
 
-            IsBusy = true;
-            try
+            var newPage = new Page
             {
-                var newPage = new Page
-                {
-                    Title = "Untitled Page",
-                    Content = string.Empty,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    IsPinned = false,
-                    WorkspaceId = CurrentWorkspaceId.Value
-                };
+                Title = "Untitled Page",
+                Content = string.Empty,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsPinned = false,
+                WorkspaceId = CurrentWorkspaceId.Value
+            };
 
-                var createdPage = _pageService.CreatePage(newPage);
-                var pageItem = new PageItemViewModel(createdPage, _pageService);
-                
-                // Add to collection (will be sorted by UpdateFilteredPages)
-                _pages.Add(pageItem);
-                UpdateFilteredPages();
-                
-                // Select the new page
-                Selected = pageItem;
-                pageItem.IsEditing = true;
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            var createdPage = _pageService.CreatePage(newPage);
+            var pageItem = new PageItemViewModel(createdPage, _pageService);
+            
+            _pages.Add(pageItem);
+            UpdateFilteredPages();
+            
+            Selected = pageItem;
+            pageItem.IsEditing = true;
         }
 
         private bool CanAddPage()
         {
-            return CurrentWorkspaceId != null && !IsBusy;
+            return CurrentWorkspaceId != null;
         }
 
         private void DeletePage()
         {
             if (Selected == null) return;
 
-            // THÊM CONFIRM DIALOG
             var result = MessageBox.Show(
                 $"Are you sure you want to delete '{Selected.Title}'?",
                 "Confirm Delete",
@@ -256,49 +227,33 @@ namespace NotionNote.ViewModels
 
             if (result != MessageBoxResult.Yes)
             {
-                return; // User cancelled
+                return;
             }
 
-            IsBusy = true;
-            try
-            {
-                _pageService.DeletePage(Selected.PageId);
-                _pages.Remove(Selected);
-                UpdateFilteredPages();
-                Selected = null;
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            _pageService.DeletePage(Selected.PageId);
+            _pages.Remove(Selected);
+            UpdateFilteredPages();
+            Selected = null;
         }
 
         private bool CanDeletePage()
         {
-            return Selected != null && !IsBusy;
+            return Selected != null;
         }
 
         private void RefreshPages()
         {
             if (CurrentWorkspaceId == null) return;
 
-            IsBusy = true;
-            try
+            var pages = _pageService.GetPagesByWorkspaceId(CurrentWorkspaceId.Value);
+            _pages.Clear();
+            
+            foreach (var page in pages)
             {
-                var pages = _pageService.GetPagesByWorkspaceId(CurrentWorkspaceId.Value);
-                _pages.Clear();
-                
-                foreach (var page in pages)
-                {
-                    _pages.Add(new PageItemViewModel(page, _pageService));
-                }
-                
-                UpdateFilteredPages();
+                _pages.Add(new PageItemViewModel(page, _pageService));
             }
-            finally
-            {
-                IsBusy = false;
-            }
+            
+            UpdateFilteredPages();
         }
 
 
@@ -318,8 +273,6 @@ namespace NotionNote.ViewModels
                     (p.Content != null && p.Content.ToLower().Contains(searchLower)));
             }
 
-            // Sort: Pinned pages first, then unpinned pages
-            // Within each group, sort by UpdatedAt descending
             filtered = filtered
                 .OrderByDescending(p => p.IsPinned ?? false)
                 .ThenByDescending(p => p.UpdatedAt ?? p.CreatedAt ?? DateTime.MinValue);

@@ -16,7 +16,6 @@ namespace NotionNote
 
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            // Seed database first
             try
             {
                 using (var context = new NoteHubDbContext())
@@ -34,7 +33,6 @@ namespace NotionNote
                 return;
             }
 
-            // Show login window
             var loginWindow = new LoginWindow();
             var result = loginWindow.ShowDialog();
 
@@ -45,11 +43,10 @@ namespace NotionNote
                 {
                     try
                     {
-                        // Change shutdown mode before showing main window
                         this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
                         var mainWindow = new MainWindow(user.UserId);
-                        this.MainWindow = mainWindow;  // SET MAIN WINDOW
+                        this.MainWindow = mainWindow;
                         mainWindow.Show();
                     }
                     catch (Exception ex)
@@ -70,7 +67,6 @@ namespace NotionNote
             }
             else
             {
-                // User closed login window
                 Shutdown();
             }
         }

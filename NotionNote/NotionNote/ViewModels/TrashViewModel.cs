@@ -13,13 +13,13 @@ namespace NotionNote.ViewModels
 {
     public class TrashItemViewModel : INotifyPropertyChanged
     {
-        private readonly object _item; // Can be Page or Workspace
-        private readonly string _type; // "Page" or "Workspace"
+        private readonly object _item;
+        private readonly string _type;
         private readonly int _id;
         private readonly string _name;
         private readonly DateTime? _deletedAt;
-        private readonly bool _isRestoreDisabled; // True if page belongs to deleted workspace
-        private readonly string? _workspaceName; // Name of workspace if page belongs to deleted workspace
+        private readonly bool _isRestoreDisabled;
+        private readonly string? _workspaceName;
 
         public TrashItemViewModel(Page page, bool isRestoreDisabled = false, string? workspaceName = null)
         {
@@ -39,7 +39,7 @@ namespace NotionNote.ViewModels
             _id = workspace.WorkspaceId;
             _name = workspace.Name;
             _deletedAt = workspace.CreatedAt;
-            _isRestoreDisabled = false; // Workspaces can always be restored
+            _isRestoreDisabled = false;
         }
 
         public string Type => _type;
@@ -64,8 +64,7 @@ namespace NotionNote.ViewModels
         private readonly int _userId;
         private ObservableCollection<TrashItemViewModel> _items = new();
         private TrashItemViewModel? _selected;
-        private bool _isBusy;
-        private HashSet<int> _deletedWorkspaceIds = new(); // Track deleted workspace IDs
+        private HashSet<int> _deletedWorkspaceIds = new();
 
         public TrashViewModel(IPageService pageService, IWorkspaceService workspaceService, int userId)
         {
@@ -108,19 +107,6 @@ namespace NotionNote.ViewModels
             }
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            private set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -154,40 +140,24 @@ namespace NotionNote.ViewModels
                 return;
             }
 
-            IsBusy = true;
-            try
+            if (Selected.Type == "Page")
             {
-                string restoredType = Selected.Type;
-                int restoredId = Selected.Id;
-                
-                if (Selected.Type == "Page")
-                {
-                    _pageService.RestorePage(Selected.Id);
-                }
-                else if (Selected.Type == "Workspace")
-                {
-                    _workspaceService.RestoreWorkspace(Selected.Id);
-                }
+                _pageService.RestorePage(Selected.Id);
+            }
+            else if (Selected.Type == "Workspace")
+            {
+                _workspaceService.RestoreWorkspace(Selected.Id);
+            }
 
-                RefreshItems();
-                Selected = null;
-                
-                // Notify that an item was restored
-                ItemRestored?.Invoke(this, EventArgs.Empty);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            RefreshItems();
+            Selected = null;
+            
+            ItemRestored?.Invoke(this, EventArgs.Empty);
         }
 
         private bool CanRestoreItem()
         {
-            // Cannot restore if:
-            // 1. Nothing selected
-            // 2. Busy
-            // 3. Selected item is a page that belongs to a deleted workspace
-            if (Selected == null || IsBusy)
+            if (Selected == null)
                 return false;
             
             return !Selected.IsRestoreDisabled;
@@ -208,77 +178,56 @@ namespace NotionNote.ViewModels
                 return;
             }
 
-            IsBusy = true;
-            try
+            if (Selected.Type == "Page")
             {
-                if (Selected.Type == "Page")
-                {
-                    _pageService.HardDeletePage(Selected.Id);
-                }
-                else if (Selected.Type == "Workspace")
-                {
-                    _workspaceService.HardDeleteWorkspace(Selected.Id);
-                }
+                _pageService.HardDeletePage(Selected.Id);
+            }
+            else if (Selected.Type == "Workspace")
+            {
+                _workspaceService.HardDeleteWorkspace(Selected.Id);
+            }
 
-                RefreshItems();
-                Selected = null;
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            RefreshItems();
+            Selected = null;
         }
 
         private bool CanHardDeleteItem()
         {
-            return Selected != null && !IsBusy;
+            return Selected != null;
         }
 
         private void RefreshItems()
         {
-            IsBusy = true;
-            try
+            _items.Clear();
+            _deletedWorkspaceIds.Clear();
+
+            var deletedWorkspaces = _workspaceService.GetDeletedWorkspaces(_userId);
+            foreach (var workspace in deletedWorkspaces)
             {
-                _items.Clear();
-                _deletedWorkspaceIds.Clear();
-
-                // Load deleted workspaces first to track which workspaces are deleted
-                var deletedWorkspaces = _workspaceService.GetDeletedWorkspaces(_userId);
-                foreach (var workspace in deletedWorkspaces)
-                {
-                    _deletedWorkspaceIds.Add(workspace.WorkspaceId);
-                    _items.Add(new TrashItemViewModel(workspace));
-                }
-
-                // Load deleted pages
-                var deletedPages = _pageService.GetDeletedPages(_userId);
-                foreach (var page in deletedPages)
-                {
-                    // Check if page's workspace is also deleted
-                    bool isRestoreDisabled = _deletedWorkspaceIds.Contains(page.WorkspaceId);
-                    string? workspaceName = null;
-                    
-                    if (isRestoreDisabled)
-                    {
-                        // Find the workspace name from deleted workspaces
-                        var deletedWorkspace = deletedWorkspaces.FirstOrDefault(w => w.WorkspaceId == page.WorkspaceId);
-                        workspaceName = deletedWorkspace?.Name;
-                    }
-                    
-                    _items.Add(new TrashItemViewModel(page, isRestoreDisabled, workspaceName));
-                }
-
-                // Sort by deleted date (newest first)
-                var sorted = _items.OrderByDescending(i => i.DeletedAt).ToList();
-                _items.Clear();
-                foreach (var item in sorted)
-                {
-                    _items.Add(item);
-                }
+                _deletedWorkspaceIds.Add(workspace.WorkspaceId);
+                _items.Add(new TrashItemViewModel(workspace));
             }
-            finally
+
+            var deletedPages = _pageService.GetDeletedPages(_userId);
+            foreach (var page in deletedPages)
             {
-                IsBusy = false;
+                bool isRestoreDisabled = _deletedWorkspaceIds.Contains(page.WorkspaceId);
+                string? workspaceName = null;
+                
+                if (isRestoreDisabled)
+                {
+                    var deletedWorkspace = deletedWorkspaces.FirstOrDefault(w => w.WorkspaceId == page.WorkspaceId);
+                    workspaceName = deletedWorkspace?.Name;
+                }
+                
+                _items.Add(new TrashItemViewModel(page, isRestoreDisabled, workspaceName));
+            }
+
+            var sorted = _items.OrderByDescending(i => i.DeletedAt).ToList();
+            _items.Clear();
+            foreach (var item in sorted)
+            {
+                _items.Add(item);
             }
         }
 

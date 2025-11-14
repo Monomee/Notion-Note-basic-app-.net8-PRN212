@@ -29,7 +29,6 @@ namespace NotionNote.Views
         {
             if (sender is ComboBox comboBox && comboBox.SelectedItem is TagItemViewModel tagItem && DataContext is EditorViewModel viewModel)
             {
-                // Add selected tag
                 if (!viewModel.SelectedTags.Any(t => t.TagId == tagItem.TagId))
                 {
                     viewModel.SelectedTags.Add(tagItem);

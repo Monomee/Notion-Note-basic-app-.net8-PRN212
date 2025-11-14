@@ -19,7 +19,6 @@ namespace NotionNote.ViewModels
         private string _confirmPassword = string.Empty;
         private string _errorMessage = string.Empty;
         private string _successMessage = string.Empty;
-        private bool _isBusy = false;
 
         public UserProfileViewModel(IAuthService authService, int userId)
         {
@@ -113,19 +112,6 @@ namespace NotionNote.ViewModels
             }
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -138,65 +124,58 @@ namespace NotionNote.ViewModels
 
         private void ChangePassword()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
             SuccessMessage = string.Empty;
 
             try
             {
-                // Validate
                 if (string.IsNullOrWhiteSpace(OldPassword))
                 {
-                    ErrorMessage = "Vui lòng nhập mật khẩu cũ";
+                    ErrorMessage = "Please enter your old password";
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(NewPassword))
                 {
-                    ErrorMessage = "Vui lòng nhập mật khẩu mới";
+                    ErrorMessage = "Please enter your new password";
                     return;
                 }
 
                 if (NewPassword.Length < 3)
                 {
-                    ErrorMessage = "Mật khẩu mới phải có ít nhất 3 ký tự";
+                    ErrorMessage = "New password must be at least 3 characters";
                     return;
                 }
 
                 if (NewPassword != ConfirmPassword)
                 {
-                    ErrorMessage = "Mật khẩu mới và xác nhận mật khẩu không khớp";
+                    ErrorMessage = "New password and confirm password do not match";
                     return;
                 }
 
-                // Change password
                 bool success = _authService.ChangePassword(_userId, OldPassword, NewPassword);
 
                 if (success)
                 {
-                    SuccessMessage = "Đổi mật khẩu thành công!";
+                    SuccessMessage = "Password changed successfully!";
                     OldPassword = string.Empty;
                     NewPassword = string.Empty;
                     ConfirmPassword = string.Empty;
 
                     MessageBox.Show(
-                        "Đổi mật khẩu thành công!",
-                        "Thành công",
+                        "Password changed successfully!",
+                        "Success",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
                 }
                 else
                 {
-                    ErrorMessage = "Mật khẩu cũ không đúng";
+                    ErrorMessage = "Old password is incorrect";
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Lỗi: {ex.Message}";
-            }
-            finally
-            {
-                IsBusy = false;
+                ErrorMessage = $"Error: {ex.Message}";
             }
         }
 
@@ -204,8 +183,7 @@ namespace NotionNote.ViewModels
         {
             return !string.IsNullOrWhiteSpace(OldPassword) &&
                    !string.IsNullOrWhiteSpace(NewPassword) &&
-                   !string.IsNullOrWhiteSpace(ConfirmPassword) &&
-                   !IsBusy;
+                   !string.IsNullOrWhiteSpace(ConfirmPassword);
         }
 
         #endregion
@@ -224,7 +202,7 @@ namespace NotionNote.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Không thể tải thông tin người dùng: {ex.Message}";
+                ErrorMessage = $"Unable to load user information: {ex.Message}";
             }
         }
 

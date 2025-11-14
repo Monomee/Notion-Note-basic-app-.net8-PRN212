@@ -19,7 +19,6 @@ namespace NotionNote.Services
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Tag name cannot be empty", nameof(name));
 
-            // Check if tag already exists
             var existingTag = GetTagByName(name);
             if (existingTag != null)
                 return existingTag;
@@ -70,7 +69,6 @@ namespace NotionNote.Services
             
             if (tag != null)
             {
-                // Remove all associations with active pages only
                 tag.Pages.Clear();
                 _context.Tags.Remove(tag);
                 _context.SaveChanges();
@@ -79,7 +77,6 @@ namespace NotionNote.Services
 
         public void AddTagToPage(int pageId, int tagId)
         {
-            // Only allow adding tags to active pages
             var page = _context.Pages
                 .Include(p => p.Tags)
                 .FirstOrDefault(p => p.PageId == pageId && p.IsActive);
@@ -95,7 +92,6 @@ namespace NotionNote.Services
 
         public void RemoveTagFromPage(int pageId, int tagId)
         {
-            // Only allow removing tags from active pages
             var page = _context.Pages
                 .Include(p => p.Tags)
                 .FirstOrDefault(p => p.PageId == pageId && p.IsActive);
@@ -111,7 +107,6 @@ namespace NotionNote.Services
 
         public IEnumerable<Tag> GetTagsByPageId(int pageId)
         {
-            // Only get tags for active pages
             var page = _context.Pages
                 .Include(p => p.Tags)
                 .FirstOrDefault(p => p.PageId == pageId && p.IsActive);

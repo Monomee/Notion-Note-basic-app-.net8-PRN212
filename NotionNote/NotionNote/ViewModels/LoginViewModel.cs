@@ -20,7 +20,6 @@ namespace NotionNote.ViewModels
         private string _password = string.Empty;
         private string _errorMessage = string.Empty;
         private bool _isLoginMode = true;
-        private bool _isBusy = false;
 
         public LoginViewModel(IAuthService authService)
         {
@@ -90,19 +89,6 @@ namespace NotionNote.ViewModels
             }
         }
 
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                if (_isBusy != value)
-                {
-                    _isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public string ModeTitle => IsLoginMode ? "Welcome Back" : "Create Account";
         public string ModeSwitchText => IsLoginMode ? "Don't have an account? Sign up" : "Already have an account? Login";
 
@@ -135,7 +121,6 @@ namespace NotionNote.ViewModels
 
         private void Login()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
 
             try
@@ -144,10 +129,9 @@ namespace NotionNote.ViewModels
 
                 if (user != null)
                 {
-                    // Debug
                     System.Diagnostics.Debug.WriteLine($"Login successful: {user.Username} (ID: {user.UserId})");
 
-                    AuthenticatedUser = user;  // ← Bây giờ sẽ fire PropertyChanged
+                    AuthenticatedUser = user;
                 }
                 else
                 {
@@ -158,22 +142,16 @@ namespace NotionNote.ViewModels
             {
                 ErrorMessage = $"Login failed: {ex.Message}";
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         private bool CanLogin()
         {
             return !string.IsNullOrWhiteSpace(Username) &&
-                   !string.IsNullOrWhiteSpace(Password) &&
-                   !IsBusy;
+                   !string.IsNullOrWhiteSpace(Password);
         }
 
         private void Register()
         {
-            IsBusy = true;
             ErrorMessage = string.Empty;
 
             try
@@ -190,10 +168,9 @@ namespace NotionNote.ViewModels
                     return;
                 }
 
-                // Show confirmation popup before creating account
                 var result = MessageBox.Show(
-                    $"Bạn có chắc chắn muốn tạo tài khoản với tên đăng nhập '{Username}' không?",
-                    "Xác nhận tạo tài khoản",
+                    $"Are you sure you want to create an account with username '{Username}'?",
+                    "Confirm Account Creation",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
 
@@ -206,15 +183,13 @@ namespace NotionNote.ViewModels
 
                 if (user != null)
                 {
-                    // Show success message and auto login
                     MessageBox.Show(
-                        $"Tài khoản '{user.Username}' đã được tạo thành công!",
-                        "Tạo tài khoản thành công",
+                        $"Account '{user.Username}' has been created successfully!",
+                        "Account Created Successfully",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
 
                     AuthenticatedUser = user;
-                    // Auto login - window will close
                 }
                 else
                 {
@@ -225,17 +200,12 @@ namespace NotionNote.ViewModels
             {
                 ErrorMessage = $"Registration failed: {ex.Message}";
             }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         private bool CanRegister()
         {
             return !string.IsNullOrWhiteSpace(Username) &&
-                   !string.IsNullOrWhiteSpace(Password) &&
-                   !IsBusy;
+                   !string.IsNullOrWhiteSpace(Password);
         }
 
         private void SwitchMode()

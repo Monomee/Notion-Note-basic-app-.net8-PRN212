@@ -26,7 +26,6 @@ namespace NotionNote.ViewModels
             ToggleSidebarCommand = new RelayCommand(ToggleSidebar);
             ShowSettingsCommand = new RelayCommand(() => 
             {
-                // Toggle: nếu đang ở Settings thì quay về Main, nếu không thì chuyển sang Settings
                 CurrentContent = CurrentContent == SidebarContentType.Settings 
                     ? SidebarContentType.None 
                     : SidebarContentType.Settings;
@@ -92,7 +91,6 @@ namespace NotionNote.ViewModels
                 {
                     _currentContent = value;
                     OnPropertyChanged();
-                    // Auto expand when content is shown
                     if (value != SidebarContentType.None)
                     {
                         IsExpanded = true;
@@ -121,7 +119,6 @@ namespace NotionNote.ViewModels
         private void ToggleSidebar()
         {
             IsExpanded = !IsExpanded;
-            // If collapsing, also close content
             if (!IsExpanded)
             {
                 CurrentContent = SidebarContentType.None;
@@ -144,7 +141,6 @@ namespace NotionNote.ViewModels
             }
             catch (Exception ex)
             {
-                // Silently fail - username will remain empty
                 System.Diagnostics.Debug.WriteLine($"Failed to load user info: {ex.Message}");
             }
         }

@@ -9,12 +9,12 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="16">
             <!-- Header -->
-            <TextBlock Text="Chỉnh sửa thông tin người dùng" 
+            <TextBlock Text="Edit User Information" 
                       Style="{StaticResource HeaderTextStyle}"
                       Margin="0,0,0,16"/>
 
             <!-- Username Display -->
-            <TextBlock Text="Tên đăng nhập:" 
+            <TextBlock Text="Username:" 
                       Style="{StaticResource SubHeaderTextStyle}"
                       Margin="0,0,0,4"/>
             <Border Background="{StaticResource SurfaceColor}"
@@ -26,7 +26,7 @@
             </Border>
 
             <!-- Old Password -->
-            <TextBlock Text="Mật khẩu cũ:" 
+            <TextBlock Text="Old Password:" 
                       Style="{StaticResource SubHeaderTextStyle}"
                       Margin="0,0,0,4"/>
             <PasswordBox x:Name="OldPasswordBox"
@@ -35,7 +35,7 @@
                         Margin="0,0,0,16"/>
 
             <!-- New Password -->
-            <TextBlock Text="Mật khẩu mới:" 
+            <TextBlock Text="New Password:" 
                       Style="{StaticResource SubHeaderTextStyle}"
                       Margin="0,0,0,4"/>
             <PasswordBox x:Name="NewPasswordBox"
@@ -44,7 +44,7 @@
                         Margin="0,0,0,16"/>
 
             <!-- Confirm Password -->
-            <TextBlock Text="Xác nhận mật khẩu mới:" 
+            <TextBlock Text="Confirm New Password:" 
                       Style="{StaticResource SubHeaderTextStyle}"
                       Margin="0,0,0,4"/>
             <PasswordBox x:Name="ConfirmPasswordBox"
@@ -79,7 +79,7 @@
             </Border>
 
             <!-- Change Password Button -->
-            <Button Content="Đổi mật khẩu"
+            <Button Content="Change Password"
                     Command="{Binding ChangePasswordCommand}"
                     Style="{StaticResource AnimatedButtonStyle}"
                     HorizontalAlignment="Stretch"

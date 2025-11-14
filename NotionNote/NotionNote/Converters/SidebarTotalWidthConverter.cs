@@ -10,7 +10,6 @@ namespace NotionNote.Converters
         {
             if (value is bool isExpanded)
             {
-                // Toggle button width (40px) + Sidebar content width (280px when expanded, 0 when collapsed)
                 return isExpanded ? 320.0 : 40.0;
             }
             return 40.0;

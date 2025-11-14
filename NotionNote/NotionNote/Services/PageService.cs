@@ -16,7 +16,6 @@ namespace NotionNote.Services
 
         public Page CreatePage(Page page)
         {
-            // Ensure new pages are active
             page.IsActive = true;
             _context.Pages.Add(page);
             _context.SaveChanges();
@@ -36,7 +35,7 @@ namespace NotionNote.Services
             return _context.Pages
                 .Include(p => p.Tags)
                 .Where(p => p.WorkspaceId == workspaceId && p.IsActive)
-                .OrderByDescending(p => p.IsPinned)  // Pinned lên đầu
+                .OrderByDescending(p => p.IsPinned)
                 .ThenByDescending(p => p.UpdatedAt ?? p.CreatedAt)
                 .ToList();
         }
@@ -50,7 +49,6 @@ namespace NotionNote.Services
 
         public void DeletePage(int pageId)
         {
-            // Soft delete: set IsActive = false
             var page = _context.Pages.Find(pageId);
             if (page != null)
             {
@@ -61,7 +59,6 @@ namespace NotionNote.Services
 
         public void HardDeletePage(int pageId)
         {
-            // Permanent delete from database
             var page = _context.Pages.Find(pageId);
             if (page != null)
             {
@@ -72,7 +69,6 @@ namespace NotionNote.Services
 
         public void RestorePage(int pageId)
         {
-            // Restore deleted page
             var page = _context.Pages.Find(pageId);
             if (page != null)
             {
@@ -83,7 +79,6 @@ namespace NotionNote.Services
 
         public IEnumerable<Page> GetDeletedPages(int userId)
         {
-            // Get all deleted pages for a user (through workspaces)
             return _context.Pages
                 .Include(p => p.Workspace)
                 .Include(p => p.Tags)
